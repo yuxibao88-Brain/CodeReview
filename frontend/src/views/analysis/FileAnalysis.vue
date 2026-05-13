@@ -54,7 +54,9 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
           <template #default="{ data }">
             <span class="tree-node">
               <span class="node-icon">{{ data.type === 'dir' ? '📁' : '📄' }}</span>
-              <span class="node-name">{{ data.name }}</span>
+              <el-tooltip :content="data.name" placement="top-start" :show-after="500">
+                <span class="node-name">{{ data.name }}</span>
+              </el-tooltip>
               <span v-if="data.issues > 0" class="node-badge">{{ data.issues }}</span>
             </span>
           </template>
@@ -168,15 +170,15 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
 
 <style scoped>
 .analysis-layout { display: flex; gap: 24px; height: calc(100vh - 130px); }
-.tree-panel { width: 280px; flex-shrink: 0; overflow-y: auto; padding: 20px; }
+.tree-panel { width: 320px; flex-shrink: 0; overflow: auto; padding: 20px; }
 .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text); }
 .file-tree { background: transparent; }
 :deep(.el-tree-node__content) { height: 36px; border-radius: 6px; padding: 0 8px; }
 :deep(.el-tree-node__content:hover) { background: var(--color-bg); }
-.tree-node { display: flex; align-items: center; gap: 8px; font-size: 13px; width: 100%; }
-.node-icon { font-size: 14px; }
-.node-name { flex: 1; }
-.node-badge { font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 1px 6px; border-radius: 10px; font-weight: 600; }
+.tree-node { display: flex; align-items: center; gap: 8px; font-size: 13px; width: 100%; overflow: hidden; }
+.node-icon { font-size: 14px; flex-shrink: 0; }
+.node-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.node-badge { font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 1px 6px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
 
 .detail-panel { flex: 1; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
 .file-header { padding: 24px; }
