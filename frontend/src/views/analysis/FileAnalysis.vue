@@ -1,8 +1,6 @@
-<script setup lang="ts">
-import { ref, onMounted, computed, watch, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch, nextTick, shallowRef } from 'vue'
 import { fileApi } from '@/api'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.min.css'
+import * as monaco from 'monaco-editor'
 
 const loading = ref(true)
 const activeTab = ref('overview')
@@ -51,24 +49,71 @@ const detectLang = (path: string): string => {
   return map[ext] || 'plaintext'
 }
 
-// Build highlighted lines
-const highlightedLines = computed(() => {
-  if (!selectedFile.value?.codeLines?.length) return []
+// Monaco Editor Setup
+const editorRef = ref<HTMLElement | null>(null)
+const editorInstance = shallowRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+let decorationsCollection = null as any
+
+const initEditor = () => {
+  if (!editorRef.value || editorInstance.value) return
+  editorInstance.value = monaco.editor.create(editorRef.value, {
+    value: '',
+    language: 'plaintext',
+    theme: 'vs-dark',
+    readOnly: true,
+    automaticLayout: true,
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    renderLineHighlight: 'all',
+    folding: true,
+    glyphMargin: true,
+    padding: { top: 16, bottom: 16 },
+  })
+}
+
+const updateEditorContent = () => {
+  if (!editorInstance.value || !selectedFile.value?.codeLines) return
+  
   const rawCode = selectedFile.value.codeLines.map((l: any) => l.code).join('\n')
   const lang = detectLang(selectedFile.value.path || selectedFile.value.name || '')
-  let highlighted: string
-  try {
-    highlighted = hljs.highlight(rawCode, { language: lang }).value
-  } catch {
-    highlighted = hljs.highlightAuto(rawCode).value
+  
+  const model = editorInstance.value.getModel()
+  if (model) {
+    model.setValue(rawCode)
+    monaco.editor.setModelLanguage(model, lang)
   }
-  const htmlLines = highlighted.split('\n')
-  return selectedFile.value.codeLines.map((line: any, i: number) => ({
-    num: line.num,
-    html: htmlLines[i] || '',
-    hasIssue: line.hasIssue,
-    issueText: line.issueText,
+
+  // Update decorations for issues
+  const issues = selectedFile.value.codeLines.filter((l: any) => l.hasIssue)
+  const newDecorations = issues.map((l: any) => ({
+    range: new monaco.Range(l.num, 1, l.num, 1),
+    options: {
+      isWholeLine: true,
+      className: 'monaco-issue-line',
+      glyphMarginClassName: 'monaco-issue-glyph',
+      hoverMessage: { value: `**⚠ Issue:** ${l.issueText}` }
+    }
   }))
+
+  if (decorationsCollection) {
+    decorationsCollection.set(newDecorations)
+  } else {
+    decorationsCollection = editorInstance.value.createDecorationsCollection(newDecorations)
+  }
+}
+
+watch([selectedFile, activeTab], async () => {
+  if (activeTab.value === 'overview' && selectedFile.value?.codeLines) {
+    await nextTick()
+    if (!editorInstance.value) initEditor()
+    updateEditorContent()
+  }
+}, { immediate: true })
+
+onUnmounted(() => {
+  if (editorInstance.value) {
+    editorInstance.value.dispose()
+  }
 })
 </script>
 
@@ -137,14 +182,8 @@ const highlightedLines = computed(() => {
           </div>
 
           <!-- 概览 -->
-          <div v-if="activeTab === 'overview'" class="tab-content">
-            <div class="code-viewer" v-if="selectedFile.codeLines">
-              <div v-for="(line, idx) in highlightedLines" :key="idx" class="cv-line" :class="{ 'cv-highlight': line.hasIssue }">
-                <span class="cv-num">{{ line.num }}</span>
-                <span class="cv-code" v-html="line.html"></span>
-                <span v-if="line.hasIssue" class="cv-issue-tag">⚠ {{ line.issueText }}</span>
-              </div>
-            </div>
+          <div v-if="activeTab === 'overview'" class="tab-content overview-tab">
+            <div v-if="selectedFile.codeLines" class="monaco-container" ref="editorRef"></div>
             <div v-else class="empty-state">选择一个文件以查看代码概览</div>
           </div>
 
@@ -233,34 +272,16 @@ const highlightedLines = computed(() => {
 .tab-item.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 .tab-content { padding: 24px; }
 
-.code-viewer {
-  background: #0d1117;
-  border-radius: 12px;
-  padding: 16px 0;
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
-  font-size: 13px;
-  overflow-x: auto;
-  border: 1px solid var(--color-border);
-  line-height: 1.7;
-}
-.cv-line { display: flex; padding: 0 16px; min-height: 22px; }
-.cv-line:hover { background: rgba(255, 255, 255, 0.03); }
-.cv-highlight { background: rgba(248, 81, 73, 0.08); }
-.cv-highlight:hover { background: rgba(248, 81, 73, 0.12); }
-.cv-num {
-  width: 48px;
-  color: rgba(139, 148, 158, 0.6);
-  text-align: right;
-  padding-right: 16px;
-  flex-shrink: 0;
-  user-select: none;
-  border-right: 1px solid var(--color-border);
-  margin-right: 16px;
-}
-.cv-code { flex: 1; white-space: pre; color: #c9d1d9; }
+.overview-tab { display: flex; flex-direction: column; height: 100%; padding: 0; }
+.monaco-container { flex: 1; min-height: 500px; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border); }
+
+:deep(.monaco-issue-line) { background: rgba(248, 81, 73, 0.1); }
+:deep(.monaco-issue-glyph) { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="%23f85149" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"></path></svg>') center center no-repeat; background-size: 12px; }
+
 .cv-issue-tag { color: var(--color-warning); font-weight: 600; margin-left: 16px; font-size: 12px; }
 
 .issue-card { padding: 16px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 12px; }
+
 .issue-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .issue-loc { font-family: monospace; font-size: 13px; color: var(--color-text-secondary); }
 .issue-text { font-size: 14px; line-height: 1.6; color: var(--color-text); }
