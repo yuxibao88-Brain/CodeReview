@@ -12,8 +12,8 @@
   --color-bg: #f8fafc; /* Very light slate */
   --color-bg-secondary: #ffffff;
   --color-bg-card: #ffffff;
-  --color-border: #e2e8f0;
-  --color-border-hover: #cbd5e1;
+  --color-border: rgba(15, 23, 42, 0.06);
+  --color-border-hover: rgba(15, 23, 42, 0.12);
   --color-text: #0f172a;
   --color-text-secondary: #64748b;
   --color-text-tertiary: #94a3b8;
@@ -58,16 +58,16 @@ html, body, #app {
 /* 高级精致卡片 */
 .card {
   background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
   padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-hover);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06), 0 4px 8px rgba(15, 23, 42, 0.03);
+  transform: translateY(-2px);
 }
 
 /* 极致柔和的标签 */
