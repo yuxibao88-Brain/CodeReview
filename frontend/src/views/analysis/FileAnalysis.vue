@@ -106,7 +106,13 @@ const updateEditorContent = () => {
 watch([selectedFile, activeTab], async () => {
   if (activeTab.value === 'overview' && selectedFile.value?.codeLines) {
     await nextTick()
-    if (!editorInstance.value) initEditor()
+    // If the editor was disposed (e.g. file switch), recreate it
+    if (editorInstance.value) {
+      editorInstance.value.dispose()
+      editorInstance.value = null
+      decorationsCollection = null
+    }
+    initEditor()
     updateEditorContent()
   }
 }, { immediate: true })
@@ -183,13 +189,13 @@ onUnmounted(() => {
           </div>
 
           <!-- 概览 -->
-          <div v-if="activeTab === 'overview'" class="tab-content overview-tab">
+          <div v-show="activeTab === 'overview'" class="tab-content overview-tab">
             <div v-if="selectedFile.codeLines" class="monaco-container" ref="editorRef"></div>
             <div v-else class="empty-state">选择一个文件以查看代码概览</div>
           </div>
 
           <!-- 问题列表 -->
-          <div v-if="activeTab === 'issues'" class="tab-content">
+          <div v-show="activeTab === 'issues'" class="tab-content">
             <div v-if="!selectedFile.issues || selectedFile.issues.length === 0" class="empty-state">该文件暂无审查意见</div>
             <div v-for="issue in (selectedFile.issues || [])" :key="issue.id" class="issue-card">
               <div class="issue-header">
@@ -201,7 +207,7 @@ onUnmounted(() => {
           </div>
 
           <!-- 依赖关系 -->
-          <div v-if="activeTab === 'deps'" class="tab-content">
+          <div v-show="activeTab === 'deps'" class="tab-content">
             <div class="dep-section">
               <h5>引用的模块</h5>
               <div class="dep-list">
@@ -217,7 +223,7 @@ onUnmounted(() => {
           </div>
 
           <!-- 统计 -->
-          <div v-if="activeTab === 'stats'" class="tab-content">
+          <div v-show="activeTab === 'stats'" class="tab-content">
             <div class="stats-grid">
               <div class="stat-block">
                 <span class="stat-num">{{ selectedFile.tsPercent || 0 }}%</span>
