@@ -118,7 +118,7 @@ const severityConfig: Record<
     </div>
 
     <!-- 搜索与操作栏 -->
-    <div class="card toolbar">
+    <div class="glass-toolbar">
       <el-input
         v-model="searchText"
         placeholder="搜索文件、规则或问题内容..."
@@ -126,7 +126,7 @@ const severityConfig: Record<
         clearable
         :prefix-icon="Search"
       />
-      <el-button :icon="Refresh" @click="handleRescan">重新扫描</el-button>
+      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round>重新扫描</el-button>
     </div>
 
     <!-- 问题列表 -->
@@ -136,22 +136,29 @@ const severityConfig: Record<
       </div>
       <div v-for="issue in filteredIssues" :key="issue.id" class="issue-item">
         <div class="issue-row">
-          <span
-            class="severity-dot"
-            :style="{ background: severityConfig[issue.severity]?.color }"
-          ></span>
-          <span
-            class="severity-tag"
-            :style="{
-              color: severityConfig[issue.severity]?.color,
-              background: severityConfig[issue.severity]?.bg,
-            }"
-          >
-            {{ severityConfig[issue.severity]?.label }}
-          </span>
-          <span class="issue-message">{{ issue.message }}</span>
-          <span class="issue-file">{{ issue.file }}:{{ issue.line }}</span>
-          <span class="issue-rule">{{ issue.rule }}</span>
+          <div class="issue-main">
+            <div class="issue-header">
+              <span
+                class="severity-tag"
+                :style="{
+                  color: severityConfig[issue.severity]?.color,
+                  background: severityConfig[issue.severity]?.bg,
+                }"
+              >
+                <span
+                  class="severity-dot"
+                  :style="{ background: severityConfig[issue.severity]?.color }"
+                ></span>
+                {{ severityConfig[issue.severity]?.label }}
+              </span>
+              <span class="issue-rule">{{ issue.rule }}</span>
+            </div>
+            <div class="issue-message">{{ issue.message }}</div>
+          </div>
+          <div class="issue-side">
+            <span class="issue-file">{{ issue.file }}</span>
+            <span class="issue-line">Line {{ issue.line }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -170,34 +177,226 @@ const severityConfig: Record<
 </template>
 
 <style scoped>
-.summary-bar { display: flex; gap: 16px; margin-bottom: 24px; }
-.summary-item { flex: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 24px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 16px rgba(0,0,0,0.02); }
-.summary-item:hover { background: rgba(255, 255, 255, 0.7); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05); }
-.summary-item.active { background: rgba(255, 255, 255, 0.85); border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1); }
-.summary-item.error.active { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 8px 32px rgba(239, 68, 68, 0.1); }
-.summary-item.warning.active { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1); }
-.summary-item.suggestion.active { border-color: rgba(29, 78, 216, 0.4); box-shadow: 0 8px 32px rgba(29, 78, 216, 0.1); }
+.summary-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+.summary-item:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+}
+.summary-item.active {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+}
+.summary-item.error.active {
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.1);
+}
+.summary-item.warning.active {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+}
+.summary-item.suggestion.active {
+  border-color: rgba(29, 78, 216, 0.4);
+  box-shadow: 0 8px 32px rgba(29, 78, 216, 0.1);
+}
 
-.summary-count { font-size: 36px; font-weight: 700; color: var(--color-text); font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-.summary-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 10px; font-weight: 600; letter-spacing: 0.02em; }
+.summary-count {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: "SF Mono", "Fira Code", monospace;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.summary-label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 
-.toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 16px 20px; }
-.search-input { flex: 1; }
-:deep(.search-input .el-input__wrapper) { border-radius: 12px; box-shadow: none !important; border: 1px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.3); padding: 8px 16px; transition: all 0.3s; }
-:deep(.search-input .el-input__wrapper:hover) { background: rgba(255,255,255,0.5); }
-:deep(.search-input .el-input__wrapper.is-focus) { background: rgba(255,255,255,0.8); border-color: var(--color-accent); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important; }
+.glass-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 8px 8px 8px 24px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+.search-input {
+  flex: 1;
+}
+:deep(.search-input .el-input__wrapper) {
+  border-radius: 100px;
+  box-shadow: none !important;
+  border: none;
+  background: transparent;
+  padding: 4px 0;
+}
+:deep(.search-input .el-input__wrapper.is-focus) {
+  box-shadow: none !important;
+}
+:deep(.search-input input) {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+:deep(.search-input input::placeholder) {
+  color: var(--color-text-tertiary);
+}
+.rescan-btn {
+  border: none;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rescan-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+}
 
-.issues-list { padding: 8px; border: 1px solid rgba(255,255,255,0.6); border-radius: 16px; overflow: hidden; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.issue-item { border-bottom: none; transition: all 0.25s ease; border-radius: 12px; margin-bottom: 4px; box-shadow: none; border: 1px solid transparent; }
-.issue-item:last-child { margin-bottom: 0; }
-.issue-item:hover { background: rgba(255,255,255,0.6); transform: scale(1.005); box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-color: rgba(255,255,255,0.8); }
-.issue-row { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
-.severity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px currentColor; }
-.severity-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; flex-shrink: 0; }
-.issue-message { flex: 1; font-size: 14px; font-weight: 500; color: var(--color-text); line-height: 1.5; }
-.issue-file { font-size: 13px; color: var(--color-text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; padding: 4px 8px; background: rgba(255,255,255,0.5); border-radius: 6px; }
-.issue-rule { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; border: 1px solid rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,0.2); }
+.issues-list {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.03);
+}
+.issue-item {
+  border-bottom: none;
+  transition: all 0.25s ease;
+  border-radius: 12px;
+  margin-bottom: 4px;
+  box-shadow: none;
+  border: 1px solid transparent;
+}
+.issue-item:last-child {
+  margin-bottom: 0;
+}
+.issue-item:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.002);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+.issue-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 24px;
+}
+.issue-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.issue-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.severity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.severity-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.issue-rule {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-family: "SF Mono", "Fira Code", monospace;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.issue-message {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+.issue-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.issue-file {
+  font-size: 13px;
+  color: var(--color-text);
+  font-weight: 600;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+.issue-line {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
 
-.pagination-wrap { display: flex; justify-content: center; margin-top: 24px; margin-bottom: 16px; }
-.empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-secondary); font-size: 14px; font-weight: 500; }
+.pagination-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
 </style>
