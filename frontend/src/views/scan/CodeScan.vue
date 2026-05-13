@@ -171,32 +171,32 @@ const severityConfig: Record<
 
 <style scoped>
 .summary-bar { display: flex; gap: 16px; margin-bottom: 24px; }
-.summary-item { flex: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 20px 24px; background: var(--color-bg-card); border-radius: 8px; cursor: pointer; transition: all 0.15s; border: 1px solid var(--color-border); box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-.summary-item:hover { background: #f8fafc; border-color: var(--color-border-hover); }
-.summary-item.active { background: #fff; border-color: var(--color-text); box-shadow: 0 0 0 1px var(--color-text); }
-.summary-item.error.active { border-color: #dc2626; box-shadow: 0 0 0 1px #dc2626; }
-.summary-item.warning.active { border-color: #d97706; box-shadow: 0 0 0 1px #d97706; }
-.summary-item.suggestion.active { border-color: #2563eb; box-shadow: 0 0 0 1px #2563eb; }
+.summary-item { flex: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 24px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 16px rgba(0,0,0,0.02); }
+.summary-item:hover { background: rgba(255, 255, 255, 0.7); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05); }
+.summary-item.active { background: rgba(255, 255, 255, 0.85); border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1); }
+.summary-item.error.active { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 8px 32px rgba(239, 68, 68, 0.1); }
+.summary-item.warning.active { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1); }
+.summary-item.suggestion.active { border-color: rgba(29, 78, 216, 0.4); box-shadow: 0 8px 32px rgba(29, 78, 216, 0.1); }
 
-.summary-count { font-size: 32px; font-weight: 600; color: var(--color-text); font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1; }
-.summary-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 8px; font-weight: 500; }
+.summary-count { font-size: 36px; font-weight: 700; color: var(--color-text); font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.summary-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 10px; font-weight: 600; letter-spacing: 0.02em; }
 
 .toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 16px 20px; }
 .search-input { flex: 1; }
-:deep(.search-input .el-input__wrapper) { border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important; border: 1px solid var(--color-border); background: #fff; padding: 6px 12px; transition: border-color 0.15s; }
-:deep(.search-input .el-input__wrapper:hover) { border-color: var(--color-border-hover); }
-:deep(.search-input .el-input__wrapper.is-focus) { border-color: var(--color-accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important; }
+:deep(.search-input .el-input__wrapper) { border-radius: 12px; box-shadow: none !important; border: 1px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.3); padding: 8px 16px; transition: all 0.3s; }
+:deep(.search-input .el-input__wrapper:hover) { background: rgba(255,255,255,0.5); }
+:deep(.search-input .el-input__wrapper.is-focus) { background: rgba(255,255,255,0.8); border-color: var(--color-accent); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important; }
 
-.issues-list { padding: 0; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; }
-.issue-item { border-bottom: 1px solid var(--color-border); transition: background 0.1s; border-radius: 0; margin-bottom: 0; box-shadow: none; border-left: none; border-right: none; border-top: none; }
-.issue-item:last-child { border-bottom: none; }
-.issue-item:hover { background: #f8fafc; transform: none; box-shadow: none; border-color: var(--color-border); }
-.issue-row { display: flex; align-items: center; gap: 16px; padding: 14px 20px; }
-.severity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.severity-tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+.issues-list { padding: 8px; border: 1px solid rgba(255,255,255,0.6); border-radius: 16px; overflow: hidden; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.issue-item { border-bottom: none; transition: all 0.25s ease; border-radius: 12px; margin-bottom: 4px; box-shadow: none; border: 1px solid transparent; }
+.issue-item:last-child { margin-bottom: 0; }
+.issue-item:hover { background: rgba(255,255,255,0.6); transform: scale(1.005); box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-color: rgba(255,255,255,0.8); }
+.issue-row { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+.severity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px currentColor; }
+.severity-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; flex-shrink: 0; }
 .issue-message { flex: 1; font-size: 14px; font-weight: 500; color: var(--color-text); line-height: 1.5; }
-.issue-file { font-size: 13px; color: var(--color-text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; }
-.issue-rule { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; border: 1px solid var(--color-border); padding: 2px 6px; border-radius: 4px; }
+.issue-file { font-size: 13px; color: var(--color-text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; padding: 4px 8px; background: rgba(255,255,255,0.5); border-radius: 6px; }
+.issue-rule { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; border: 1px solid rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,0.2); }
 
 .pagination-wrap { display: flex; justify-content: center; margin-top: 24px; margin-bottom: 16px; }
 .empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-secondary); font-size: 14px; font-weight: 500; }

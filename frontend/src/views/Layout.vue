@@ -136,17 +136,20 @@ const collapsed = ref(false)
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background: var(--color-bg);
+  background: transparent;
 }
 
 .sidebar {
   width: var(--sidebar-width);
-  background: var(--color-bg-secondary);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
-  border-right: 1px solid var(--color-border);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 1px 0 20px rgba(0,0,0,0.02);
 }
 
 .sidebar.collapsed {
@@ -218,13 +221,16 @@ const collapsed = ref(false)
 
 .topbar {
   height: 64px;
-  background: var(--color-bg-secondary);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px 0 16px;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 20px rgba(0,0,0,0.01);
 }
 
 .topbar-left {
