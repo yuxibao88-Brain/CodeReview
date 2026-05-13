@@ -159,6 +159,15 @@ const handleLogin = async () => {
   color: var(--color-text-tertiary) !important;
 }
 
+/* Chrome autofill dark override */
+:deep(.el-input__inner:-webkit-autofill),
+:deep(.el-input__inner:-webkit-autofill:hover),
+:deep(.el-input__inner:-webkit-autofill:focus) {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
+  -webkit-text-fill-color: var(--color-text) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .login-actions {
   display: flex;
   align-items: center;
