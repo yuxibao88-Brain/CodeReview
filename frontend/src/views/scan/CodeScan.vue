@@ -126,7 +126,9 @@ const severityConfig: Record<
         clearable
         :prefix-icon="Search"
       />
-      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round>重新扫描</el-button>
+      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round
+        >重新扫描</el-button
+      >
     </div>
 
     <!-- 问题列表 -->
@@ -188,36 +190,35 @@ const severityConfig: Record<
   flex-direction: column;
   align-items: flex-start;
   padding: 24px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #ffffff;
   border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 .summary-item:hover {
-  background: rgba(255, 255, 255, 0.7);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
 }
 .summary-item.active {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+  background: #ffffff;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
 }
 .summary-item.error.active {
-  border-color: rgba(239, 68, 68, 0.4);
-  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.1);
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
 }
 .summary-item.warning.active {
-  border-color: rgba(245, 158, 11, 0.4);
-  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+  border-color: #d97706;
+  box-shadow: 0 0 0 1px #d97706;
 }
 .summary-item.suggestion.active {
-  border-color: rgba(29, 78, 216, 0.4);
-  box-shadow: 0 8px 32px rgba(29, 78, 216, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb;
 }
 
 .summary-count {
@@ -242,12 +243,10 @@ const severityConfig: Record<
   gap: 16px;
   margin-bottom: 24px;
   padding: 8px 8px 8px 24px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 .search-input {
   flex: 1;
@@ -272,34 +271,32 @@ const severityConfig: Record<
 }
 .rescan-btn {
   border: none;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: var(--color-accent);
   color: white;
   padding: 10px 24px;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  transition: all 0.2s ease;
 }
 .rescan-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  background: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   color: white;
 }
 
 .issues-list {
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.03);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 .issue-item {
   border-bottom: none;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   border-radius: 12px;
   margin-bottom: 4px;
   box-shadow: none;
@@ -309,10 +306,10 @@ const severityConfig: Record<
   margin-bottom: 0;
 }
 .issue-item:hover {
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(1.002);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  border-color: rgba(255, 255, 255, 0.9);
+  background: #f8fafc;
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
 }
 .issue-row {
   display: flex;

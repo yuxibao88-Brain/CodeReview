@@ -1,67 +1,78 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { ElMessageBox, ElMessage } from "element-plus";
 import {
-  Monitor, Search, Document, Ticket, FolderOpened, Checked,
-  Connection, Odometer, Lock, UserFilled, DataAnalysis, Setting,
-  Expand, Fold
-} from '@element-plus/icons-vue'
+  Monitor,
+  Search,
+  Document,
+  Ticket,
+  FolderOpened,
+  Checked,
+  Connection,
+  Odometer,
+  Lock,
+  UserFilled,
+  DataAnalysis,
+  Setting,
+  Expand,
+  Fold,
+} from "@element-plus/icons-vue";
 
-const router = useRouter()
-const route = useRoute()
-const userStore = useUserStore()
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore();
 
-const activeMenu = computed(() => route.path)
-const userInfo = computed(() => userStore.userInfo)
+const activeMenu = computed(() => route.path);
+const userInfo = computed(() => userStore.userInfo);
 
 const handleLogout = () => {
-  ElMessageBox.confirm('确定要退出系统吗？', '提示', {
-    type: 'warning'
+  ElMessageBox.confirm("确定要退出系统吗？", "提示", {
+    type: "warning",
   }).then(() => {
-    userStore.logout()
-    ElMessage.success('已退出登录')
-    router.push('/login')
-  })
-}
+    userStore.logout();
+    ElMessage.success("已退出登录");
+    router.push("/login");
+  });
+};
 
 const menuGroups = [
   {
-    title: '核心',
+    title: "核心",
     items: [
-      { path: '/dashboard',     icon: Monitor,      label: '仪表盘' },
-      { path: '/scan',          icon: Search,        label: '代码扫描' },
-      { path: '/file-analysis', icon: Document,      label: '文件分析' },
-    ]
+      { path: "/dashboard", icon: Monitor, label: "仪表盘" },
+      { path: "/scan", icon: Search, label: "代码扫描" },
+      { path: "/file-analysis", icon: Document, label: "文件分析" },
+    ],
   },
   {
-    title: '工作流',
+    title: "工作流",
     items: [
-      { path: '/tickets',   icon: Ticket,       label: '审查工单' },
-      { path: '/projects',  icon: FolderOpened, label: '项目概览' },
-      { path: '/standards', icon: Checked,       label: '规范检查' },
-    ]
+      { path: "/tickets", icon: Ticket, label: "审查工单" },
+      { path: "/projects", icon: FolderOpened, label: "项目概览" },
+      { path: "/standards", icon: Checked, label: "规范检查" },
+    ],
   },
   {
-    title: '分析',
+    title: "分析",
     items: [
-      { path: '/dependencies', icon: Connection, label: '依赖管理' },
-      { path: '/performance',  icon: Odometer,   label: '性能监控' },
-      { path: '/security',     icon: Lock,        label: '安全审计' },
-    ]
+      { path: "/dependencies", icon: Connection, label: "依赖管理" },
+      { path: "/performance", icon: Odometer, label: "性能监控" },
+      { path: "/security", icon: Lock, label: "安全审计" },
+    ],
   },
   {
-    title: '协作',
+    title: "协作",
     items: [
-      { path: '/team',     icon: UserFilled,  label: '团队协作' },
-      { path: '/reports',  icon: DataAnalysis, label: '报告中心' },
-      { path: '/settings', icon: Setting,      label: '系统设置' },
-    ]
+      { path: "/team", icon: UserFilled, label: "团队协作" },
+      { path: "/reports", icon: DataAnalysis, label: "报告中心" },
+      { path: "/settings", icon: Setting, label: "系统设置" },
+    ],
   },
-]
+];
 
-const collapsed = ref(false)
+const collapsed = ref(false);
 </script>
 
 <template>
@@ -69,8 +80,17 @@ const collapsed = ref(false)
     <aside class="sidebar" :class="{ collapsed }">
       <div class="logo">
         <span class="logo-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z" fill="var(--color-accent)"/>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z"
+              fill="var(--color-accent)"
+            />
           </svg>
         </span>
         <span v-if="!collapsed" class="logo-text">CodeReview</span>
@@ -84,7 +104,9 @@ const collapsed = ref(false)
         class="sidebar-menu"
       >
         <template v-for="(group, gi) in menuGroups" :key="gi">
-          <div v-if="!collapsed" class="menu-group-title">{{ group.title }}</div>
+          <div v-if="!collapsed" class="menu-group-title">
+            {{ group.title }}
+          </div>
           <el-menu-item
             v-for="item in group.items"
             :key="item.path"
@@ -109,15 +131,19 @@ const collapsed = ref(false)
           <el-dropdown trigger="click" @command="handleLogout">
             <div class="user-info-btn">
               <el-avatar :size="32" class="user-avatar">
-                {{ userInfo?.name?.charAt(0) || 'U' }}
+                {{ userInfo?.name?.charAt(0) || "U" }}
               </el-avatar>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item disabled class="dropdown-header">
-                  <div class="user-email">{{ userInfo?.username || '未登录' }}</div>
+                  <div class="user-email">
+                    {{ userInfo?.username || "未登录" }}
+                  </div>
                 </el-dropdown-item>
-                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item divided command="logout"
+                  >退出登录</el-dropdown-item
+                >
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -141,15 +167,12 @@ const collapsed = ref(false)
 
 .sidebar {
   width: var(--sidebar-width);
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   display: flex;
   flex-direction: column;
-  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.2s ease;
   flex-shrink: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 1px 0 20px rgba(0,0,0,0.02);
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .sidebar.collapsed {
@@ -221,16 +244,13 @@ const collapsed = ref(false)
 
 .topbar {
   height: 64px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px 0 16px;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 1px 20px rgba(0,0,0,0.01);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .topbar-left {
@@ -310,5 +330,4 @@ const collapsed = ref(false)
 .menu-group-title:first-child {
   padding-top: 4px;
 }
-
 </style>

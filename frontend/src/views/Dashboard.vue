@@ -109,7 +109,7 @@ const gradeColor = (g: string) => g.startsWith('A') ? 'var(--color-success)' : g
 .health-score { font-size: 52px; font-weight: 800; color: var(--color-text); letter-spacing: -0.04em; line-height: 1; font-family: "SF Mono", "Fira Code", monospace; text-shadow: 0 4px 16px rgba(0,0,0,0.04); }
 .health-unit { font-size: 18px; font-weight: 600; color: var(--color-text-tertiary); }
 .health-bar { height: 8px; background: rgba(0,0,0,0.04); border-radius: 100px; margin-top: 24px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); }
-.health-fill { height: 100%; background: linear-gradient(90deg, #10b981 0%, #34d399 100%); border-radius: 100px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.health-fill { height: 100%; background: var(--color-success); border-radius: 100px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
 
 .stat-card { padding: 24px; display: flex; flex-direction: column; justify-content: center; }
 .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
