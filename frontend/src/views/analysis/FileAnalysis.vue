@@ -254,8 +254,9 @@ onUnmounted(() => {
 .tree-panel { width: 320px; flex-shrink: 0; overflow: auto; padding: 20px; }
 .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text); }
 .file-tree { background: transparent; }
-:deep(.el-tree-node__content) { height: 36px; border-radius: 6px; padding: 0 8px; }
+:deep(.el-tree-node__content) { height: 36px; border-radius: 6px; padding: 0 8px; transition: all 0.2s; }
 :deep(.el-tree-node__content:hover) { background: var(--color-bg-hover); }
+:deep(.el-tree-node.is-current > .el-tree-node__content) { background: rgba(74, 140, 246, 0.15) !important; color: var(--color-accent); }
 .tree-node { display: flex; align-items: center; gap: 8px; font-size: 13px; width: 100%; overflow: hidden; }
 .node-icon { font-size: 14px; flex-shrink: 0; }
 .node-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
