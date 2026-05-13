@@ -3,22 +3,9 @@ import { ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { ElMessageBox, ElMessage } from "element-plus";
-import {
-  Monitor,
-  Search,
-  Document,
-  Ticket,
-  FolderOpened,
-  Checked,
-  Connection,
-  Odometer,
-  Lock,
-  UserFilled,
-  DataAnalysis,
-  Setting,
-  Expand,
-  Fold,
-} from "@element-plus/icons-vue";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 const router = useRouter();
 const route = useRoute();
@@ -28,46 +15,52 @@ const activeMenu = computed(() => route.path);
 const userInfo = computed(() => userStore.userInfo);
 
 const handleLogout = () => {
-  ElMessageBox.confirm("确定要退出系统吗？", "提示", {
-    type: "warning",
-  }).then(() => {
+  ElMessageBox.confirm(
+    locale.value === "zh-CN"
+      ? "确定要退出系统吗？"
+      : "Are you sure you want to log out?",
+    locale.value === "zh-CN" ? "提示" : "Warning",
+    { type: "warning" },
+  ).then(() => {
     userStore.logout();
-    ElMessage.success("已退出登录");
+    ElMessage.success(
+      locale.value === "zh-CN" ? "已退出登录" : "Logged out successfully",
+    );
     router.push("/login");
   });
 };
 
 const menuGroups = [
   {
-    title: "核心",
+    titleKey: "layout.core",
     items: [
-      { path: "/dashboard", icon: Monitor, label: "仪表盘" },
-      { path: "/scan", icon: Search, label: "代码扫描" },
-      { path: "/file-analysis", icon: Document, label: "文件分析" },
+      { path: "/dashboard", iconKey: "dashboard", labelKey: "layout.dashboard" },
+      { path: "/scan", iconKey: "scan", labelKey: "layout.scan" },
+      { path: "/file-analysis", iconKey: "file", labelKey: "layout.fileAnalysis" },
     ],
   },
   {
-    title: "工作流",
+    titleKey: "layout.workflow",
     items: [
-      { path: "/tickets", icon: Ticket, label: "审查工单" },
-      { path: "/projects", icon: FolderOpened, label: "项目概览" },
-      { path: "/standards", icon: Checked, label: "规范检查" },
+      { path: "/tickets", iconKey: "ticket", labelKey: "layout.tickets" },
+      { path: "/projects", iconKey: "grid", labelKey: "layout.projects", badge: 1 },
+      { path: "/standards", iconKey: "check", labelKey: "layout.standards" },
     ],
   },
   {
-    title: "分析",
+    titleKey: "layout.analysis",
     items: [
-      { path: "/dependencies", icon: Connection, label: "依赖管理" },
-      { path: "/performance", icon: Odometer, label: "性能监控" },
-      { path: "/security", icon: Lock, label: "安全审计" },
+      { path: "/dependencies", iconKey: "deps", labelKey: "layout.dependencies" },
+      { path: "/performance", iconKey: "perf", labelKey: "layout.performance" },
+      { path: "/security", iconKey: "shield", labelKey: "layout.security" },
     ],
   },
   {
-    title: "协作",
+    titleKey: "layout.collaboration",
     items: [
-      { path: "/team", icon: UserFilled, label: "团队协作" },
-      { path: "/reports", icon: DataAnalysis, label: "报告中心" },
-      { path: "/settings", icon: Setting, label: "系统设置" },
+      { path: "/team", iconKey: "users", labelKey: "layout.team" },
+      { path: "/reports", iconKey: "chart", labelKey: "layout.reports" },
+      { path: "/settings", iconKey: "settings", labelKey: "layout.settings" },
     ],
   },
 ];
@@ -99,21 +92,53 @@ const collapsed = ref(false);
       <el-menu
         :default-active="activeMenu"
         :collapse="collapsed"
-        :collapse-transition="true"
+        :collapse-transition="false"
         router
         class="sidebar-menu"
       >
         <template v-for="(group, gi) in menuGroups" :key="gi">
           <div v-if="!collapsed" class="menu-group-title">
-            {{ group.title }}
+            {{ $t(group.titleKey) }}
           </div>
           <el-menu-item
             v-for="item in group.items"
             :key="item.path"
             :index="item.path"
           >
-            <el-icon><component :is="item.icon" /></el-icon>
-            <template #title>{{ item.label }}</template>
+            <span class="menu-svg-icon">
+              <!-- Dashboard: monitor -->
+              <svg v-if="item.iconKey === 'dashboard'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <!-- Scan: search -->
+              <svg v-else-if="item.iconKey === 'scan'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <!-- File analysis: file-text -->
+              <svg v-else-if="item.iconKey === 'file'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <!-- Tickets: clipboard -->
+              <svg v-else-if="item.iconKey === 'ticket'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+              <!-- Projects: grid -->
+              <svg v-else-if="item.iconKey === 'grid'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              <!-- Standards: clipboard-check -->
+              <svg v-else-if="item.iconKey === 'check'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>
+              <!-- Dependencies: git-branch -->
+              <svg v-else-if="item.iconKey === 'deps'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              <!-- Performance: activity -->
+              <svg v-else-if="item.iconKey === 'perf'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <!-- Security: shield -->
+              <svg v-else-if="item.iconKey === 'shield'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <!-- Team: users -->
+              <svg v-else-if="item.iconKey === 'users'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <!-- Reports: bar-chart -->
+              <svg v-else-if="item.iconKey === 'chart'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+              <!-- Settings: gear -->
+              <svg v-else-if="item.iconKey === 'settings'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </span>
+            <template #title>
+              <div class="menu-item-title-wrapper">
+                <span>{{ $t(item.labelKey) }}</span>
+                <span v-if="item.badge" class="menu-item-badge">{{
+                  item.badge
+                }}</span>
+              </div>
+            </template>
           </el-menu-item>
         </template>
       </el-menu>
@@ -122,9 +147,21 @@ const collapsed = ref(false);
     <div class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <el-icon class="collapse-btn" @click="collapsed = !collapsed">
-            <component :is="collapsed ? Expand : Fold" />
-          </el-icon>
+          <div class="collapse-btn" @click="collapsed = !collapsed">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </div>
           <span class="page-title">{{ route.meta.title }}</span>
         </div>
         <div class="topbar-right">
@@ -141,9 +178,9 @@ const collapsed = ref(false);
                     {{ userInfo?.username || "未登录" }}
                   </div>
                 </el-dropdown-item>
-                <el-dropdown-item divided command="logout"
-                  >退出登录</el-dropdown-item
-                >
+                <el-dropdown-item divided command="logout">
+                  {{ locale === "zh-CN" ? "退出登录" : "Logout" }}
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -170,9 +207,12 @@ const collapsed = ref(false);
   background: var(--color-bg-secondary);
   display: flex;
   flex-direction: column;
-  transition: width 0.2s ease;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   border-right: 1px solid var(--color-border);
+  will-change: width;
+  contain: layout style;
+  overflow: hidden;
 }
 
 .sidebar.collapsed {
@@ -210,20 +250,68 @@ const collapsed = ref(false);
 
 /* 高级 SaaS 侧边栏菜单样式 */
 :deep(.el-menu-item) {
-  height: 44px;
-  line-height: 44px;
-  margin: 0 12px 4px 12px;
+  height: 40px;
+  line-height: 40px;
+  margin: 0 12px 2px 12px;
   border-radius: 8px;
   color: var(--color-text-secondary);
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.2s ease;
+}
+:deep(.el-menu-item .el-icon),
+.menu-svg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+:deep(.el-menu-item:hover) .menu-svg-icon,
+:deep(.el-menu-item.is-active) .menu-svg-icon {
+  opacity: 1;
 }
 .sidebar.collapsed :deep(.el-menu-item) {
   margin: 0 12px 4px 12px;
   border-radius: 8px;
   justify-content: center;
   padding: 0 !important;
+}
+
+.sidebar.collapsed :deep(.el-menu-tooltip__trigger) {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-item-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 4px;
+}
+
+.menu-item-badge {
+  background-color: var(--color-accent);
+  color: #fff;
+  font-size: 12px;
+  height: 20px;
+  min-width: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0 6px;
+  font-weight: 600;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 :deep(.el-menu-item:hover) {
@@ -264,15 +352,27 @@ const collapsed = ref(false);
 .collapse-btn {
   cursor: pointer;
   color: var(--color-text-secondary);
-  font-size: 20px;
-  padding: 8px;
-  border-radius: 6px;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .collapse-btn:hover {
-  background: var(--color-bg-hover);
+  background-color: var(--color-bg-hover);
   color: var(--color-text);
+}
+
+.collapse-btn:active {
+  transform: scale(0.9);
+  background-color: var(--color-border);
 }
 
 .page-title {

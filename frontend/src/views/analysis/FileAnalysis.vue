@@ -140,7 +140,10 @@ onUnmounted(() => {
         >
           <template #default="{ data }">
             <span class="tree-node">
-              <span class="node-icon">{{ data.type === 'dir' ? '📁' : '📄' }}</span>
+              <span class="node-icon">
+                <svg v-if="data.type === 'dir'" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--color-warning)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                <svg v-else viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </span>
               <el-tooltip :content="data.name" placement="top-start" :show-after="500">
                 <span class="node-name">{{ data.name }}</span>
               </el-tooltip>

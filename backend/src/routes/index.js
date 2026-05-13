@@ -194,12 +194,35 @@ router.get("/dashboard/trend", (req, res) => {
   const scan = ensureScan();
   if (!scan) return res.json([]);
   // 由于目前只存一次扫描，我们根据当前数据模拟一个“健康”的趋势
-  const baseScore = Math.max(0, 100 - scan.summary.errors * 5 - scan.summary.warnings * 2);
+  const baseScore = Math.max(
+    0,
+    100 - scan.summary.errors * 5 - scan.summary.warnings * 2,
+  );
   res.json([
-    { week: 'W18', errors: Math.round(scan.summary.errors * 1.5), warnings: Math.round(scan.summary.warnings * 1.2), score: Math.max(0, baseScore - 10) },
-    { week: 'W19', errors: Math.round(scan.summary.errors * 1.2), warnings: Math.round(scan.summary.warnings * 1.1), score: Math.max(0, baseScore - 5) },
-    { week: 'W20', errors: scan.summary.errors, warnings: scan.summary.warnings, score: baseScore },
-    { week: 'W21', errors: Math.round(scan.summary.errors * 0.8), warnings: Math.round(scan.summary.warnings * 0.9), score: Math.min(100, baseScore + 5) },
+    {
+      week: "W18",
+      errors: Math.round(scan.summary.errors * 1.5),
+      warnings: Math.round(scan.summary.warnings * 1.2),
+      score: Math.max(0, baseScore - 10),
+    },
+    {
+      week: "W19",
+      errors: Math.round(scan.summary.errors * 1.2),
+      warnings: Math.round(scan.summary.warnings * 1.1),
+      score: Math.max(0, baseScore - 5),
+    },
+    {
+      week: "W20",
+      errors: scan.summary.errors,
+      warnings: scan.summary.warnings,
+      score: baseScore,
+    },
+    {
+      week: "W21",
+      errors: Math.round(scan.summary.errors * 0.8),
+      warnings: Math.round(scan.summary.warnings * 0.9),
+      score: Math.min(100, baseScore + 5),
+    },
   ]);
 });
 
@@ -220,59 +243,77 @@ router.get("/dashboard/activity", (req, res) => {
 router.get("/dashboard/issue-distribution", (req, res) => {
   const scan = ensureScan();
   if (!scan) return res.json([]);
-  
+
   const groups = {};
-  scan.issues.forEach(i => {
-    const label = i.rule === 'max-lines' ? '文件长度' :
-                  i.rule === 'complexity' ? '代码复杂度' :
-                  i.rule === 'no-explicit-any' ? '类型规范' :
-                  i.rule === 'no-console' ? '调试残留' :
-                  i.rule === 'no-hardcode-cn' ? '国际化' :
-                  i.rule === 'vue/no-v-html' ? '安全隐患' : '其他';
+  scan.issues.forEach((i) => {
+    const label =
+      i.rule === "max-lines"
+        ? "文件长度"
+        : i.rule === "complexity"
+          ? "代码复杂度"
+          : i.rule === "no-explicit-any"
+            ? "类型规范"
+            : i.rule === "no-console"
+              ? "调试残留"
+              : i.rule === "no-hardcode-cn"
+                ? "国际化"
+                : i.rule === "vue/no-v-html"
+                  ? "安全隐患"
+                  : "其他";
     groups[label] = (groups[label] || 0) + 1;
   });
 
   const colors = {
-    '代码规范': '#3b82f6', '安全隐患': '#ef4444', '代码复杂度': '#10b981', '国际化': '#f59e0b',
-    '类型规范': '#8b5cf6', '调试残留': '#64748b', '文件长度': '#ec4899'
+    代码规范: "#3b82f6",
+    安全隐患: "#ef4444",
+    代码复杂度: "#10b981",
+    国际化: "#f59e0b",
+    类型规范: "#8b5cf6",
+    调试残留: "#64748b",
+    文件长度: "#ec4899",
   };
 
   const total = scan.issues.length || 1;
-  const result = Object.entries(groups).map(([label, count]) => ({
-    label,
-    value: Math.round((count / total) * 100),
-    color: colors[label] || '#94a3b8'
-  })).sort((a, b) => b.value - a.value);
+  const result = Object.entries(groups)
+    .map(([label, count]) => ({
+      label,
+      value: Math.round((count / total) * 100),
+      color: colors[label] || "#94a3b8",
+    }))
+    .sort((a, b) => b.value - a.value);
 
   res.json(result);
 });
 
 router.get("/dashboard/contributors", (req, res) => {
   const project = getActiveProject();
-  if (!project || !fs.existsSync(path.join(project.path, '.git'))) {
+  if (!project || !fs.existsSync(path.join(project.path, ".git"))) {
     return res.json([
-      { name: '系统管理员', reviews: 1, issuesFound: 0, avatar: 'A' }
+      { name: "系统管理员", reviews: 1, issuesFound: 0, avatar: "A" },
     ]);
   }
 
   try {
     // 获取 git 贡献者统计
-    const output = execSync('git shortlog -sn --all', { cwd: project.path }).toString();
-    const contributors = output.split('\n')
-      .filter(line => line.trim())
-      .map(line => {
-        const parts = line.trim().split('\t');
+    const output = execSync("git shortlog -sn --all", {
+      cwd: project.path,
+    }).toString();
+    const contributors = output
+      .split("\n")
+      .filter((line) => line.trim())
+      .map((line) => {
+        const parts = line.trim().split("\t");
         return {
           name: parts[1],
           reviews: 0, // 这里的 reviews 是业务概念，目前 mock
           issuesFound: parseInt(parts[0]), // 借用 commit 数作为指标
-          avatar: parts[1].charAt(0).toUpperCase()
+          avatar: parts[1].charAt(0).toUpperCase(),
         };
       })
       .slice(0, 5);
     res.json(contributors);
   } catch (err) {
-    res.json([{ name: 'Git Error', reviews: 0, issuesFound: 0, avatar: 'E' }]);
+    res.json([{ name: "Git Error", reviews: 0, issuesFound: 0, avatar: "E" }]);
   }
 });
 

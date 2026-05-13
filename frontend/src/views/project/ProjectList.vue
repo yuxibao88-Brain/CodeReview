@@ -102,7 +102,9 @@ const handleDelete = async (projectId: number, name: string) => {
 
     <!-- 空状态 -->
     <div v-if="!loading && projects.length === 0" class="card empty-hero">
-      <div class="empty-icon">📁</div>
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      </div>
       <h3>尚未添加任何项目</h3>
       <p>添加您的代码项目路径，系统将自动扫描分析</p>
       <el-button type="primary" :icon="FolderAdd" @click="showDialog = true" size="large">添加第一个项目</el-button>
@@ -175,7 +177,7 @@ const handleDelete = async (projectId: number, name: string) => {
 .primary-btn { background-color: var(--color-accent); border-color: var(--color-accent); border-radius: 8px; padding: 0 20px; height: 38px; font-weight: 500; }
 
 .empty-hero { display: flex; flex-direction: column; align-items: center; padding: 80px 40px; text-align: center; }
-.empty-icon { font-size: 64px; margin-bottom: 20px; }
+.empty-icon { margin-bottom: 20px; opacity: 0.5; }
 .empty-hero h3 { font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 8px; }
 .empty-hero p { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 24px; }
 
