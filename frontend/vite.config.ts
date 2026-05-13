@@ -9,9 +9,8 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
   plugins: [
     vue(),
-    (monacoEditorPlugin as any).default
-      ? (monacoEditorPlugin as any).default({})
-      : monacoEditorPlugin({}),
+    // @ts-ignore
+    monacoEditorPlugin.default ? (monacoEditorPlugin as any).default({}) : (monacoEditorPlugin as any)({}),
     AutoImport({
       resolvers: [ElementPlusResolver()],
       imports: ["vue", "vue-router", "pinia"],
