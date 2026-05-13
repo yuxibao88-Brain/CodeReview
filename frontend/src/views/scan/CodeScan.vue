@@ -121,32 +121,32 @@ const severityConfig: Record<string, { color: string; bg: string; label: string 
 </template>
 
 <style scoped>
-.summary-bar { display: flex; gap: 16px; margin-bottom: 24px; }
-.summary-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; background: var(--color-bg-card); border: 2px solid var(--color-border); border-radius: 12px; cursor: pointer; transition: all 0.2s; }
-.summary-item:hover { border-color: var(--color-border-hover); }
-.summary-item.active { border-color: var(--color-accent); background: #eff6ff; }
-.summary-item.error.active { border-color: #b91c1c; background: #fee2e2; }
-.summary-item.warning.active { border-color: #b45309; background: #fef3c7; }
-.summary-item.suggestion.active { border-color: #1d4ed8; background: #dbeafe; }
-.summary-count { font-size: 28px; font-weight: 700; color: var(--color-text); letter-spacing: -0.03em; }
-.summary-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-weight: 500; }
+.summary-bar { display: flex; gap: 20px; margin-bottom: 24px; }
+.summary-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 20px; background: var(--color-bg-card); border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); border: 1px solid rgba(255, 255, 255, 0.8); }
+.summary-item:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05); }
+.summary-item.active { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border-color: #bfdbfe; box-shadow: 0 12px 30px rgba(59, 130, 246, 0.1); transform: translateY(-4px); }
+.summary-item.error.active { background: linear-gradient(135deg, #ffffff 0%, #fee2e2 100%); border-color: #fecaca; box-shadow: 0 12px 30px rgba(239, 68, 68, 0.1); }
+.summary-item.warning.active { background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); border-color: #fde68a; box-shadow: 0 12px 30px rgba(245, 158, 11, 0.1); }
+.summary-item.suggestion.active { background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%); border-color: #bfdbfe; box-shadow: 0 12px 30px rgba(29, 78, 216, 0.1); }
+.summary-count { font-size: 36px; font-weight: 800; color: var(--color-text); letter-spacing: -0.04em; line-height: 1; }
+.summary-label { font-size: 14px; color: var(--color-text-secondary); margin-top: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
-.toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 16px 20px; }
+.toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 20px 24px; }
 .search-input { flex: 1; }
-:deep(.search-input .el-input__wrapper) { border-radius: 8px; box-shadow: none !important; border: 1px solid var(--color-border); padding: 8px 12px; }
-:deep(.search-input .el-input__wrapper.is-focus) { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important; }
+:deep(.search-input .el-input__wrapper) { border-radius: 10px; box-shadow: none !important; border: 1px solid transparent; background: #f8fafc; padding: 10px 16px; transition: all 0.2s ease; }
+:deep(.search-input .el-input__wrapper:hover) { background: #f1f5f9; }
+:deep(.search-input .el-input__wrapper.is-focus) { background: #ffffff; border-color: #bfdbfe; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important; }
 
-.issues-list { padding: 0; }
-.issue-item { border-bottom: 1px solid var(--color-border); transition: background 0.15s; }
-.issue-item:last-child { border-bottom: none; }
-.issue-item:hover { background: var(--color-bg); }
-.issue-row { display: flex; align-items: center; gap: 12px; padding: 14px 24px; }
-.severity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.severity-tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
-.issue-message { flex: 1; font-size: 14px; font-weight: 500; color: var(--color-text); }
-.issue-file { font-size: 13px; color: var(--color-text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; }
-.issue-rule { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; }
+.issues-list { padding: 12px; }
+.issue-item { border-radius: 12px; margin-bottom: 4px; transition: all 0.25s ease; border: 1px solid transparent; }
+.issue-item:hover { background: #f8fafc; border-color: var(--color-border); transform: translateX(4px); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02); }
+.issue-row { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+.severity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8); }
+.severity-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; letter-spacing: 0.02em; }
+.issue-message { flex: 1; font-size: 14px; font-weight: 500; color: var(--color-text); line-height: 1.5; }
+.issue-file { font-size: 13px; color: var(--color-text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; padding: 4px 8px; background: var(--color-bg); border-radius: 6px; }
+.issue-rule { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; border: 1px solid var(--color-border); padding: 2px 6px; border-radius: 4px; }
 
-.pagination-wrap { display: flex; justify-content: center; margin-top: 24px; }
-.empty-state { text-align: center; padding: 60px; color: var(--color-text-secondary); font-size: 14px; }
+.pagination-wrap { display: flex; justify-content: center; margin-top: 32px; margin-bottom: 16px; }
+.empty-state { text-align: center; padding: 80px 20px; color: var(--color-text-tertiary); font-size: 15px; font-weight: 500; }
 </style>
