@@ -126,6 +126,10 @@ const handleTest = () => {
   display: flex; justify-content: flex-end; gap: 12px;
 }
 :deep(.el-tabs__item) { color: var(--color-text-secondary); }
-:deep(.el-tabs__item.is-active) { color: var(--color-primary); }
-:deep(.el-form-item__label) { color: var(--color-text-secondary); }
+:deep(.el-tabs__item.is-active) { color: var(--color-accent); }
+:deep(.el-tabs__nav-wrap::after) { background: var(--color-border); }
+:deep(.el-form-item__label) { color: var(--color-text-secondary) !important; }
+:deep(.el-input__wrapper) { background: var(--color-bg) !important; border: 1px solid var(--color-border) !important; box-shadow: none !important; }
+:deep(.el-input__inner) { color: var(--color-text) !important; }
+:deep(.el-select .el-input__wrapper) { background: var(--color-bg) !important; }
 </style>

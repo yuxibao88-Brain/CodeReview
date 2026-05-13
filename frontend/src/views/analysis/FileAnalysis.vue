@@ -174,11 +174,11 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
 .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text); }
 .file-tree { background: transparent; }
 :deep(.el-tree-node__content) { height: 36px; border-radius: 6px; padding: 0 8px; }
-:deep(.el-tree-node__content:hover) { background: var(--color-bg); }
+:deep(.el-tree-node__content:hover) { background: var(--color-bg-hover); }
 .tree-node { display: flex; align-items: center; gap: 8px; font-size: 13px; width: 100%; overflow: hidden; }
 .node-icon { font-size: 14px; flex-shrink: 0; }
 .node-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-.node-badge { font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 1px 6px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
+.node-badge { font-size: 11px; background: rgba(248, 81, 73, 0.15); color: #f85149; padding: 1px 6px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
 
 .detail-panel { flex: 1; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
 .file-header { padding: 24px; }
@@ -198,12 +198,12 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
 .tab-item.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 .tab-content { padding: 24px; }
 
-.code-viewer { background: #1e293b; border-radius: 8px; padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; overflow-x: auto; }
-.cv-line { display: flex; line-height: 1.8; color: #e2e8f0; }
-.cv-highlight { background: rgba(239, 68, 68, 0.15); border-radius: 4px; }
-.cv-num { width: 40px; color: #64748b; text-align: right; margin-right: 16px; flex-shrink: 0; user-select: none; }
+.code-viewer { background: var(--color-bg); border-radius: 8px; padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; overflow-x: auto; border: 1px solid var(--color-border); }
+.cv-line { display: flex; line-height: 1.8; color: var(--color-text); }
+.cv-highlight { background: rgba(248, 81, 73, 0.1); border-radius: 4px; }
+.cv-num { width: 40px; color: var(--color-text-tertiary); text-align: right; margin-right: 16px; flex-shrink: 0; user-select: none; }
 .cv-code { flex: 1; white-space: pre; }
-.cv-issue-tag { color: #f59e0b; font-weight: 600; margin-left: 16px; font-size: 12px; }
+.cv-issue-tag { color: var(--color-warning); font-weight: 600; margin-left: 16px; font-size: 12px; }
 
 .issue-card { padding: 16px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 12px; }
 .issue-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
@@ -212,11 +212,11 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
 
 .dep-section h5 { font-size: 14px; font-weight: 600; color: var(--color-text); margin-bottom: 12px; }
 .dep-list { display: flex; flex-wrap: wrap; gap: 8px; }
-.dep-tag { padding: 6px 14px; background: #eff6ff; color: var(--color-accent); border-radius: 6px; font-size: 13px; font-weight: 500; }
-.dep-tag.used-by { background: #f0fdf4; color: var(--color-success); }
+.dep-tag { padding: 6px 14px; background: rgba(88, 166, 255, 0.1); color: var(--color-accent); border-radius: 6px; font-size: 13px; font-weight: 500; }
+.dep-tag.used-by { background: rgba(63, 185, 80, 0.1); color: var(--color-success); }
 
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.stat-block { background: var(--color-bg); padding: 24px; border-radius: 12px; text-align: center; }
+.stat-block { background: var(--color-bg); padding: 24px; border-radius: 8px; text-align: center; border: 1px solid var(--color-border); }
 .stat-num { font-size: 28px; font-weight: 700; color: var(--color-text); display: block; }
 .stat-desc { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-weight: 500; }
 

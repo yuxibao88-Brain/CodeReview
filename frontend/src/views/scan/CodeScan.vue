@@ -190,35 +190,33 @@ const severityConfig: Record<
   flex-direction: column;
   align-items: flex-start;
   padding: 24px;
-  background: #ffffff;
-  border-radius: 16px;
+  background: var(--color-bg-card);
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 0.15s ease;
+  border: 1px solid var(--color-border);
 }
 .summary-item:hover {
-  background: #f8fafc;
+  background: var(--color-bg-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: var(--color-border-hover);
 }
 .summary-item.active {
-  background: #ffffff;
+  background: var(--color-bg-card);
   border-color: var(--color-accent);
   box-shadow: 0 0 0 1px var(--color-accent);
 }
 .summary-item.error.active {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 1px #dc2626;
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 1px var(--color-danger);
 }
 .summary-item.warning.active {
-  border-color: #d97706;
-  box-shadow: 0 0 0 1px #d97706;
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 1px var(--color-warning);
 }
 .summary-item.suggestion.active {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 1px #2563eb;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
 }
 
 .summary-count {
@@ -227,7 +225,7 @@ const severityConfig: Record<
   color: var(--color-text);
   font-family: "SF Mono", "Fira Code", monospace;
   line-height: 1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-shadow: none;
 }
 .summary-label {
   font-size: 13px;
@@ -243,16 +241,15 @@ const severityConfig: Record<
   gap: 16px;
   margin-bottom: 24px;
   padding: 8px 8px 8px 24px;
-  background: #ffffff;
-  border-radius: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  background: var(--color-bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
 }
 .search-input {
   flex: 1;
 }
 :deep(.search-input .el-input__wrapper) {
-  border-radius: 100px;
+  border-radius: 6px;
   box-shadow: none !important;
   border: none;
   background: transparent;
@@ -270,46 +267,40 @@ const severityConfig: Record<
   color: var(--color-text-tertiary);
 }
 .rescan-btn {
-  border: none;
-  background: var(--color-accent);
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  background: #238636;
   color: white;
   padding: 10px 24px;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-  transition: all 0.2s ease;
+  transition: background 0.15s ease;
 }
 .rescan-btn:hover {
-  transform: translateY(-1px);
-  background: #2563eb;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background: #2ea043;
   color: white;
 }
 
 .issues-list {
-  padding: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 16px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  background: var(--color-bg-card);
 }
 .issue-item {
-  border-bottom: none;
-  transition: all 0.2s ease;
-  border-radius: 12px;
-  margin-bottom: 4px;
-  box-shadow: none;
-  border: 1px solid transparent;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.1s ease;
+  border-radius: 0;
+  margin-bottom: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
 }
 .issue-item:last-child {
-  margin-bottom: 0;
+  border-bottom: none;
 }
 .issue-item:hover {
-  background: #f8fafc;
-  transform: none;
-  box-shadow: none;
-  border-color: transparent;
+  background: var(--color-bg-hover);
 }
 .issue-row {
   display: flex;
@@ -349,10 +340,10 @@ const severityConfig: Record<
   font-size: 12px;
   color: var(--color-text-secondary);
   font-family: "SF Mono", "Fira Code", monospace;
-  padding: 4px 12px;
+  padding: 2px 8px;
   border-radius: 100px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  background: rgba(110, 118, 129, 0.15);
+  border: 1px solid var(--color-border);
 }
 .issue-message {
   font-size: 15px;
@@ -369,18 +360,18 @@ const severityConfig: Record<
 }
 .issue-file {
   font-size: 13px;
-  color: var(--color-text);
-  font-weight: 600;
+  color: var(--color-accent);
+  font-weight: 500;
   font-family: "SF Mono", "Fira Code", monospace;
 }
 .issue-line {
   font-size: 12px;
   color: var(--color-text-tertiary);
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(110, 118, 129, 0.15);
   padding: 2px 8px;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--color-border);
 }
 
 .pagination-wrap {

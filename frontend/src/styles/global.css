@@ -1,29 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
-  /* 现代高级 SaaS 色板 */
-  --color-primary: #0f172a;
-  --color-primary-light: #334155;
-  --color-accent: #3b82f6; /* Blue for highlights */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  /* GitHub-style dark palette */
+  --color-primary: #c9d1d9;
+  --color-primary-light: #8b949e;
+  --color-accent: #58a6ff;
+  --color-success: #3fb950;
+  --color-warning: #d29922;
+  --color-danger: #f85149;
 
-  --color-bg: #f8fafc; /* Very light slate */
-  --color-bg-secondary: #ffffff;
-  --color-bg-card: #ffffff;
-  --color-border: rgba(255, 255, 255, 0.5);
-  --color-border-hover: rgba(255, 255, 255, 0.8);
-  --color-text: #0f172a;
-  --color-text-secondary: #64748b;
-  --color-text-tertiary: #94a3b8;
+  --color-bg: #0d1117;
+  --color-bg-secondary: #161b22;
+  --color-bg-card: #161b22;
+  --color-bg-hover: #1c2128;
+  --color-border: #30363d;
+  --color-border-hover: #484f58;
+  --color-text: #e6edf3;
+  --color-text-secondary: #8b949e;
+  --color-text-tertiary: #6e7681;
 
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-  --shadow-md:
-    0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
-  --shadow-lg:
-    0 10px 15px -3px rgba(15, 23, 42, 0.08),
-    0 4px 6px -2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 
   --sidebar-width: 260px;
 }
@@ -34,25 +32,17 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#app {
+html, body, #app {
   height: 100%;
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--color-text);
-  /* 极致干净纯粹的单色背景，无任何渐变 */
-  background-color: #f4f7fa;
+  background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
 
-/* 覆盖 Element Plus 默认色 */
+/* Element Plus dark overrides */
 :root {
   --el-color-primary: var(--color-accent);
   --el-color-success: var(--color-success);
@@ -61,67 +51,60 @@ body,
   --el-text-color-primary: var(--color-text);
   --el-text-color-regular: var(--color-text-secondary);
   --el-border-color: var(--color-border);
-  --el-border-color-light: #f1f5f9;
-  --el-border-radius-base: 8px;
+  --el-border-color-light: var(--color-border);
+  --el-border-radius-base: 6px;
   --el-font-family: "Inter", sans-serif;
+  --el-bg-color: var(--color-bg-secondary);
+  --el-bg-color-overlay: var(--color-bg-secondary);
+  --el-fill-color-blank: var(--color-bg-secondary);
+  --el-fill-color-light: var(--color-bg-hover);
+  --el-mask-color: rgba(0, 0, 0, 0.6);
 }
 
-/* 极致纯净卡片材质 */
+/* Dark card */
 .card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 16px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   padding: 24px;
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.02),
-    0 1px 2px rgba(0, 0, 0, 0.01);
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease;
 }
 
 .card:hover {
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.04),
-    0 2px 4px rgba(0, 0, 0, 0.02);
+  border-color: var(--color-border-hover);
 }
 
-/* 极致柔和的标签 */
-.severity-high {
-  color: #b91c1c;
-  background: #fee2e2;
-}
-.severity-medium {
-  color: #b45309;
-  background: #fef3c7;
-}
-.severity-low {
-  color: #047857;
-  background: #d1fae5;
-}
+/* Severity badges */
+.severity-high { color: #f85149; background: rgba(248, 81, 73, 0.15); }
+.severity-medium { color: #d29922; background: rgba(210, 153, 34, 0.15); }
+.severity-low { color: #3fb950; background: rgba(63, 185, 80, 0.15); }
 
 .severity-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 100px;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.02em;
 }
 
-/* 高级细条滚动条 */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+/* Element Plus component overrides for dark mode */
+:deep(.el-loading-mask) { background-color: rgba(13, 17, 23, 0.8) !important; }
+
+.el-button--primary {
+  --el-button-bg-color: var(--color-accent);
+  --el-button-border-color: var(--color-accent);
 }
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 8px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+
+.el-pagination {
+  --el-pagination-bg-color: var(--color-bg-secondary);
+  --el-pagination-button-bg-color: var(--color-bg-secondary);
+  --el-pagination-hover-color: var(--color-accent);
 }

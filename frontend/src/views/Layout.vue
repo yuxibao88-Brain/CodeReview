@@ -167,12 +167,12 @@ const collapsed = ref(false);
 
 .sidebar {
   width: var(--sidebar-width);
-  background: #ffffff;
+  background: var(--color-bg-secondary);
   display: flex;
   flex-direction: column;
   transition: width 0.2s ease;
   flex-shrink: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  border-right: 1px solid var(--color-border);
 }
 
 .sidebar.collapsed {
@@ -226,12 +226,12 @@ const collapsed = ref(false);
 }
 
 :deep(.el-menu-item:hover) {
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-hover);
   color: var(--color-text);
 }
 
 :deep(.el-menu-item.is-active) {
-  background-color: #eff6ff; /* Tailwind blue-50 */
+  background-color: rgba(88, 166, 255, 0.1);
   color: var(--color-accent);
 }
 
@@ -244,13 +244,13 @@ const collapsed = ref(false);
 
 .topbar {
   height: 64px;
-  background: #ffffff;
+  background: var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px 0 16px;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .topbar-left {
@@ -269,7 +269,7 @@ const collapsed = ref(false);
 }
 
 .collapse-btn:hover {
-  background: var(--color-bg);
+  background: var(--color-bg-hover);
   color: var(--color-text);
 }
 

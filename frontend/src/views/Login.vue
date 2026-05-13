@@ -35,12 +35,14 @@ const handleLogin = async () => {
     <div class="login-card">
       <div class="login-header">
         <h1 class="login-logo">
-          <span class="logo-blue">ASMS</span>
-          <span style="color: #5f6368; margin-left: 8px; font-weight: 400"
-            >Code Review</span
-          >
+          <span class="logo-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z" fill="#58a6ff"/>
+            </svg>
+          </span>
+          <span class="logo-text">ASMS <span class="logo-sub">Code Review</span></span>
         </h1>
-        <h2 class="login-title">登录</h2>
+        <h2 class="login-title">Sign in</h2>
         <p class="login-subtitle">使用您的管理账号继续</p>
       </div>
 
@@ -71,7 +73,7 @@ const handleLogin = async () => {
             class="login-btn"
             native-type="submit"
           >
-            下一步
+            登 录
           </el-button>
         </div>
       </el-form>
@@ -89,65 +91,55 @@ const handleLogin = async () => {
 }
 
 .login-card {
-  width: 420px;
+  width: 400px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 48px 40px;
-  box-sizing: border-box;
-  box-shadow: var(--shadow-md);
-  transition: box-shadow 0.2s;
-}
-
-.login-card:hover {
-  box-shadow: var(--shadow-lg);
+  border-radius: 8px;
+  padding: 40px;
 }
 
 .login-header {
-  text-align: center;
   margin-bottom: 32px;
 }
 
 .login-logo {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: 24px;
 }
-.logo-blue { color: var(--color-accent); }
-.logo-red { color: var(--color-danger); }
-.logo-yellow { color: var(--color-warning); }
-.logo-green { color: var(--color-success); }
+.logo-sub { color: var(--color-text-secondary); font-weight: 400; }
 
 .login-title {
   font-size: 24px;
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 8px;
-  letter-spacing: -0.02em;
 }
 
 .login-subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--color-text-secondary);
-  font-weight: 400;
 }
 
 .login-form {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 :deep(.el-form-item) {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 :deep(.el-input__wrapper) {
   box-shadow: none !important;
   border: 1px solid var(--color-border) !important;
-  border-radius: 8px;
-  padding: 10px 14px;
-  background: var(--color-bg-card) !important;
-  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: var(--color-bg) !important;
+  transition: border-color 0.15s;
 }
 
 :deep(.el-input__wrapper:hover) {
@@ -155,31 +147,39 @@ const handleLogin = async () => {
 }
 
 :deep(.el-input__wrapper.is-focus) {
-  border: 1px solid var(--color-accent) !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15) !important;
+}
+
+:deep(.el-input__inner) {
+  color: var(--color-text) !important;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: var(--color-text-tertiary) !important;
 }
 
 .login-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .login-btn {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  border-radius: 8px;
-  padding: 0 28px;
+  background: #238636;
+  border-color: rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  padding: 0 24px;
   font-weight: 600;
   height: 40px;
-  transition: all 0.2s ease;
+  color: #ffffff;
+  transition: background 0.15s;
 }
 
 .login-btn:hover {
-  background-color: #2563eb;
-  border-color: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  background: #2ea043;
+  border-color: rgba(240, 246, 252, 0.1);
+  color: #ffffff;
 }
 </style>
