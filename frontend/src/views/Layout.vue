@@ -231,8 +231,9 @@ const collapsed = ref(false);
 }
 
 :deep(.el-menu-item.is-active) {
-  background-color: rgba(88, 166, 255, 0.1);
+  background-color: rgba(74, 140, 246, 0.12);
   color: var(--color-accent);
+  font-weight: 600;
 }
 
 .main {
@@ -328,6 +329,6 @@ const collapsed = ref(false);
   line-height: 1;
 }
 .menu-group-title:first-child {
-  padding-top: 4px;
+  padding-top: 8px;
 }
 </style>

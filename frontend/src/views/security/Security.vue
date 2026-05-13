@@ -19,9 +19,9 @@ const fetchData = async () => {
 onMounted(fetchData)
 
 const severityConfig: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  high:   { icon: '🔴', color: '#b91c1c', bg: '#fee2e2', label: '高危' },
-  medium: { icon: '🟡', color: '#b45309', bg: '#fef3c7', label: '中危' },
-  low:    { icon: '🔵', color: '#1d4ed8', bg: '#dbeafe', label: '低危' },
+  high:   { icon: '🔴', color: '#f85149', bg: 'rgba(248, 81, 73, 0.15)', label: '高危' },
+  medium: { icon: '🟡', color: '#d29922', bg: 'rgba(210, 153, 34, 0.15)', label: '中危' },
+  low:    { icon: '🔵', color: '#58a6ff', bg: 'rgba(88, 166, 255, 0.15)', label: '低危' },
 }
 </script>
 
@@ -79,7 +79,7 @@ const severityConfig: Record<string, { icon: string; color: string; bg: string; 
 .vuln-severity { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
 .vuln-title { font-size: 15px; font-weight: 600; color: var(--color-text); }
 .vuln-desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
-.vuln-fix { margin-top: 12px; font-size: 13px; color: var(--color-success); background: #f0fdf4; padding: 8px 14px; border-radius: 6px; }
+.vuln-fix { margin-top: 12px; font-size: 13px; color: var(--color-success); background: rgba(16, 185, 129, 0.1); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2); }
 .fix-label { font-weight: 600; }
 
 .sensitive-row { display: flex; align-items: center; gap: 12px; padding: 14px 24px; border-bottom: 1px solid var(--color-border); }

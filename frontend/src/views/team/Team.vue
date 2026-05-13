@@ -74,7 +74,7 @@ onMounted(fetchData)
 .tab { padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--color-text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s; }
 .tab.active { background: var(--color-bg-card); color: var(--color-text); box-shadow: var(--shadow-sm); }
 :deep(.el-table th.el-table__cell) { background: transparent !important; border-bottom: 1px solid var(--color-border); font-weight: 500; font-size: 13px; }
-:deep(.el-table td.el-table__cell) { border-bottom: 1px solid #f1f5f9; }
+:deep(.el-table td.el-table__cell) { border-bottom: 1px solid var(--color-border); }
 :deep(.el-table__inner-wrapper::before) { display: none; }
 
 .owner-card { display: flex; align-items: center; gap: 16px; padding: 16px 24px; margin-bottom: 12px; }

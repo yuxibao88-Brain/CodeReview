@@ -26,9 +26,9 @@ const filteredTickets = computed(() => {
 })
 
 const priorityConfig: Record<string, { color: string; bg: string; label: string }> = {
-  high:   { color: '#b91c1c', bg: '#fee2e2', label: '高优先' },
-  medium: { color: '#b45309', bg: '#fef3c7', label: '中优先' },
-  low:    { color: '#047857', bg: '#d1fae5', label: '低优先' },
+  high:   { color: '#f85149', bg: 'rgba(248, 81, 73, 0.15)', label: '高优先' },
+  medium: { color: '#d29922', bg: 'rgba(210, 153, 34, 0.15)', label: '中优先' },
+  low:    { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', label: '低优先' },
 }
 
 const statusConfig: Record<string, { label: string; type: string }> = {

@@ -73,9 +73,13 @@ const severityConfig: Record<
   string,
   { color: string; bg: string; label: string }
 > = {
-  error: { color: "#b91c1c", bg: "#fee2e2", label: "错误" },
-  warning: { color: "#b45309", bg: "#fef3c7", label: "警告" },
-  suggestion: { color: "#1d4ed8", bg: "#dbeafe", label: "建议" },
+  error: { color: "#f85149", bg: "rgba(248, 81, 73, 0.15)", label: "错误" },
+  warning: { color: "#d29922", bg: "rgba(210, 153, 34, 0.15)", label: "警告" },
+  suggestion: {
+    color: "#58a6ff",
+    bg: "rgba(88, 166, 255, 0.15)",
+    label: "建议",
+  },
 };
 </script>
 
@@ -191,15 +195,17 @@ const severityConfig: Record<
   align-items: flex-start;
   padding: 24px;
   background: var(--color-bg-card);
-  border-radius: 8px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 .summary-item:hover {
   background: var(--color-bg-hover);
   transform: translateY(-2px);
   border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
 }
 .summary-item.active {
   background: var(--color-bg-card);
@@ -242,8 +248,9 @@ const severityConfig: Record<
   margin-bottom: 24px;
   padding: 8px 8px 8px 24px;
   background: var(--color-bg-card);
-  border-radius: 8px;
+  border-radius: 16px;
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 .search-input {
   flex: 1;
@@ -267,25 +274,29 @@ const severityConfig: Record<
   color: var(--color-text-tertiary);
 }
 .rescan-btn {
-  border: 1px solid rgba(240, 246, 252, 0.1);
-  background: #238636;
+  border: none;
+  background: var(--color-accent);
   color: white;
   padding: 10px 24px;
   font-size: 14px;
   font-weight: 600;
-  transition: background 0.15s ease;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 .rescan-btn:hover {
-  background: #2ea043;
+  background: #3b82f6;
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 140, 246, 0.3);
 }
 
 .issues-list {
   padding: 0;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--color-bg-card);
+  box-shadow: var(--shadow-sm);
 }
 .issue-item {
   border-bottom: 1px solid var(--color-border);

@@ -188,9 +188,9 @@ onMounted(fetchReports)
   background: var(--color-bg);
   color: var(--color-text-secondary);
 }
-.rank-1 { background: #fef3c7; color: #b45309; }
-.rank-2 { background: #f1f5f9; color: #64748b; }
-.rank-3 { background: #fee2e2; color: #b91c1c; }
+.rank-1 { background: rgba(210, 153, 34, 0.2); color: #d29922; }
+.rank-2 { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+.rank-3 { background: rgba(248, 81, 73, 0.15); color: #f85149; }
 
 .issue-list {
   display: flex;
@@ -225,7 +225,7 @@ onMounted(fetchReports)
   padding: 12px 0;
 }
 :deep(.el-table td.el-table__cell) {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
   padding: 16px 0;
 }
 :deep(.el-table__inner-wrapper::before) {

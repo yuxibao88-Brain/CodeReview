@@ -122,14 +122,14 @@ const gradeColor = (g: string) => g.startsWith('A') ? 'var(--color-success)' : g
 
 .trend-table { font-size: 14px; }
 .trend-header { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; padding: 12px 8px; font-weight: 600; color: var(--color-text-secondary); font-size: 13px; border-bottom: 1px solid var(--color-border); }
-.trend-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; padding: 14px 8px; border-bottom: 1px solid var(--color-border); transition: background 0.15s; }
+.trend-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; padding: 14px 8px; border-bottom: 1px solid var(--color-border); transition: background 0.15s; border-radius: 12px; }
 .trend-row:hover { background: var(--color-bg-hover); }
 .trend-row:last-child { border-bottom: none; }
 .tw, .tw2 { color: var(--color-text); font-weight: 500; }
 .te { font-weight: 600; }
 .ts { font-weight: 700; }
 
-.module-row { display: flex; align-items: center; gap: 16px; padding: 14px 8px; border-bottom: 1px solid var(--color-border); transition: background 0.15s; }
+.module-row { display: flex; align-items: center; gap: 16px; padding: 14px 8px; border-bottom: 1px solid var(--color-border); transition: background 0.15s; border-radius: 12px; }
 .module-row:hover { background: var(--color-bg-hover); }
 .module-row:last-child { border-bottom: none; }
 .mod-name { font-size: 14px; font-weight: 600; color: var(--color-text); width: 120px; flex-shrink: 0; }
@@ -138,7 +138,7 @@ const gradeColor = (g: string) => g.startsWith('A') ? 'var(--color-success)' : g
 .mod-grade { font-size: 15px; font-weight: 700; width: 36px; text-align: center; }
 .mod-score { font-size: 14px; font-weight: 600; color: var(--color-text-secondary); width: 36px; text-align: right; font-family: "SF Mono", "Fira Code", monospace; }
 
-.activity-row { display: flex; align-items: center; gap: 12px; padding: 14px 8px; border-bottom: 1px solid var(--color-border); font-size: 14px; transition: background 0.15s; }
+.activity-row { display: flex; align-items: center; gap: 12px; padding: 14px 8px; border-bottom: 1px solid var(--color-border); font-size: 14px; transition: background 0.15s; border-radius: 12px; }
 .activity-row:hover { background: var(--color-bg-hover); }
 .activity-row:last-child { border-bottom: none; }
 .act-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent); flex-shrink: 0; }

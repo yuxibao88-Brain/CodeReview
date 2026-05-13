@@ -167,19 +167,20 @@ const handleLogin = async () => {
 }
 
 .login-btn {
-  background: #238636;
-  border-color: rgba(240, 246, 252, 0.1);
-  border-radius: 6px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
   padding: 0 24px;
   font-weight: 600;
   height: 40px;
   color: #ffffff;
-  transition: background 0.15s;
+  transition: all 0.2s;
 }
 
 .login-btn:hover {
-  background: #2ea043;
-  border-color: rgba(240, 246, 252, 0.1);
+  background: #3b82f6;
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 140, 246, 0.3);
 }
 </style>
