@@ -316,7 +316,7 @@ const collapsed = ref(false);
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 32px;
+  padding: 20px;
 }
 
 .menu-group-title {

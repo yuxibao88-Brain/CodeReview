@@ -250,8 +250,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.analysis-layout { display: flex; gap: 24px; height: calc(100vh - 130px); }
-.tree-panel { width: 320px; flex-shrink: 0; overflow: auto; padding: 20px; }
+.analysis-layout { display: flex; gap: 16px; height: calc(100vh - 100px); }
+.tree-panel { width: 320px; flex-shrink: 0; overflow: auto; padding: 16px; }
 .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--color-text); }
 .file-tree { background: transparent; }
 :deep(.el-tree-node__content) { height: 36px; border-radius: 6px; padding: 0 8px; transition: all 0.2s; }
@@ -262,10 +262,10 @@ onUnmounted(() => {
 .node-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 .node-badge { font-size: 11px; background: rgba(248, 81, 73, 0.15); color: #f85149; padding: 1px 6px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
 
-.detail-panel { flex: 1; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
-.file-header { padding: 24px; }
-.file-path { font-size: 18px; font-weight: 600; color: var(--color-text); margin-bottom: 20px; letter-spacing: -0.01em; font-family: 'SF Mono', 'Fira Code', monospace; }
-.file-meta { display: flex; gap: 32px; }
+.detail-panel { flex: 1; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+.file-header { padding: 16px 20px; }
+.file-path { font-size: 16px; font-weight: 600; color: var(--color-text); margin-bottom: 12px; letter-spacing: -0.01em; font-family: 'SF Mono', 'Fira Code', monospace; }
+.file-meta { display: flex; gap: 24px; }
 .meta-item { display: flex; flex-direction: column; align-items: center; }
 .meta-value { font-size: 24px; font-weight: 700; color: var(--color-text); letter-spacing: -0.02em; }
 .meta-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; font-weight: 500; }

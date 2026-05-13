@@ -185,15 +185,15 @@ const severityConfig: Record<
 <style scoped>
 .summary-bar {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 .summary-item {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 24px;
+  padding: 16px 20px;
   background: var(--color-bg-card);
   border-radius: 16px;
   cursor: pointer;
