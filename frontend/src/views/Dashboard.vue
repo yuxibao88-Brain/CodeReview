@@ -66,8 +66,7 @@ const fetchData = async () => {
     activities.value = actRes;
     issueDistribution.value = distRes;
     contributors.value = contRes;
-  } catch (err) {
-    console.error("Dashboard fetch failed:", err);
+  } catch {
   } finally {
     loading.value = false;
   }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, watch, nextTick, shallowRef } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, shallowRef } from 'vue'
 import { fileApi } from '@/api'
 import * as monaco from 'monaco-editor'
 
