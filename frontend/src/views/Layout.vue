@@ -94,14 +94,19 @@ const collapsed = ref(false)
           </el-menu-item>
         </template>
       </el-menu>
+
+      <!-- 侧边栏底部折叠按钮 -->
+      <div class="sidebar-footer">
+        <div class="collapse-toggle" @click="collapsed = !collapsed" :class="{ 'is-collapsed': collapsed }">
+          <el-icon><component :is="collapsed ? Expand : Fold" /></el-icon>
+          <span v-if="!collapsed" class="collapse-text">收起侧边栏</span>
+        </div>
+      </div>
     </aside>
 
     <div class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <el-icon class="collapse-btn" @click="collapsed = !collapsed">
-            <component :is="collapsed ? Expand : Fold" />
-          </el-icon>
           <span class="page-title">{{ route.meta.title }}</span>
         </div>
         <div class="topbar-right">
@@ -302,5 +307,35 @@ const collapsed = ref(false)
 }
 .menu-group-title:first-child {
   padding-top: 4px;
+}
+
+/* 侧边栏底部折叠按钮 */
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.collapse-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--color-text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.collapse-toggle:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.collapse-toggle.is-collapsed {
+  justify-content: center;
+  padding: 10px 0;
 }
 </style>
