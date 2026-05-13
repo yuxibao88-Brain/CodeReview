@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import { fileApi } from '@/api'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-dark.min.css'
 
 const loading = ref(true)
 const activeTab = ref('overview')
@@ -35,6 +37,39 @@ const handleNodeClick = async (node: any) => {
 onMounted(fetchTree)
 
 const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ? 'var(--color-warning)' : 'var(--color-success)'
+
+// Detect language from file extension
+const detectLang = (path: string): string => {
+  const ext = path?.split('.').pop()?.toLowerCase() || ''
+  const map: Record<string, string> = {
+    ts: 'typescript', tsx: 'typescript', js: 'javascript', jsx: 'javascript',
+    vue: 'xml', html: 'xml', css: 'css', scss: 'scss', less: 'less',
+    json: 'json', md: 'markdown', py: 'python', java: 'java',
+    go: 'go', rs: 'rust', sh: 'bash', yaml: 'yaml', yml: 'yaml',
+    sql: 'sql', xml: 'xml', svg: 'xml', dockerfile: 'dockerfile',
+  }
+  return map[ext] || 'plaintext'
+}
+
+// Build highlighted lines
+const highlightedLines = computed(() => {
+  if (!selectedFile.value?.codeLines?.length) return []
+  const rawCode = selectedFile.value.codeLines.map((l: any) => l.code).join('\n')
+  const lang = detectLang(selectedFile.value.path || selectedFile.value.name || '')
+  let highlighted: string
+  try {
+    highlighted = hljs.highlight(rawCode, { language: lang }).value
+  } catch {
+    highlighted = hljs.highlightAuto(rawCode).value
+  }
+  const htmlLines = highlighted.split('\n')
+  return selectedFile.value.codeLines.map((line: any, i: number) => ({
+    num: line.num,
+    html: htmlLines[i] || '',
+    hasIssue: line.hasIssue,
+    issueText: line.issueText,
+  }))
+})
 </script>
 
 <template>
@@ -104,9 +139,9 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
           <!-- 概览 -->
           <div v-if="activeTab === 'overview'" class="tab-content">
             <div class="code-viewer" v-if="selectedFile.codeLines">
-              <div v-for="(line, idx) in selectedFile.codeLines" :key="idx" class="cv-line" :class="{ 'cv-highlight': line.hasIssue }">
+              <div v-for="(line, idx) in highlightedLines" :key="idx" class="cv-line" :class="{ 'cv-highlight': line.hasIssue }">
                 <span class="cv-num">{{ line.num }}</span>
-                <span class="cv-code">{{ line.code }}</span>
+                <span class="cv-code" v-html="line.html"></span>
                 <span v-if="line.hasIssue" class="cv-issue-tag">⚠ {{ line.issueText }}</span>
               </div>
             </div>
@@ -198,11 +233,31 @@ const complexityColor = (v: number) => v > 20 ? 'var(--color-danger)' : v > 10 ?
 .tab-item.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 .tab-content { padding: 24px; }
 
-.code-viewer { background: var(--color-bg); border-radius: 8px; padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; overflow-x: auto; border: 1px solid var(--color-border); }
-.cv-line { display: flex; line-height: 1.8; color: var(--color-text); }
-.cv-highlight { background: rgba(248, 81, 73, 0.1); border-radius: 4px; }
-.cv-num { width: 40px; color: var(--color-text-tertiary); text-align: right; margin-right: 16px; flex-shrink: 0; user-select: none; }
-.cv-code { flex: 1; white-space: pre; }
+.code-viewer {
+  background: #0d1117;
+  border-radius: 12px;
+  padding: 16px 0;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+  font-size: 13px;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  line-height: 1.7;
+}
+.cv-line { display: flex; padding: 0 16px; min-height: 22px; }
+.cv-line:hover { background: rgba(255, 255, 255, 0.03); }
+.cv-highlight { background: rgba(248, 81, 73, 0.08); }
+.cv-highlight:hover { background: rgba(248, 81, 73, 0.12); }
+.cv-num {
+  width: 48px;
+  color: rgba(139, 148, 158, 0.6);
+  text-align: right;
+  padding-right: 16px;
+  flex-shrink: 0;
+  user-select: none;
+  border-right: 1px solid var(--color-border);
+  margin-right: 16px;
+}
+.cv-code { flex: 1; white-space: pre; color: #c9d1d9; }
 .cv-issue-tag { color: var(--color-warning); font-weight: 600; margin-left: 16px; font-size: 12px; }
 
 .issue-card { padding: 16px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 12px; }
