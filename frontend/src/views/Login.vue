@@ -35,11 +35,9 @@ const handleLogin = async () => {
     <div class="login-card">
       <div class="login-header">
         <h1 class="login-logo">
-          <span class="logo-blue">G</span><span class="logo-red">o</span
-          ><span class="logo-yellow">o</span><span class="logo-blue">g</span
-          ><span class="logo-green">l</span><span class="logo-red">e</span>
+          <span class="logo-blue">ASMS</span>
           <span style="color: #5f6368; margin-left: 8px; font-weight: 400"
-            >Review</span
+            >Code Review</span
           >
         </h1>
         <h2 class="login-title">登录</h2>
