@@ -119,7 +119,7 @@ const handleDelete = async (projectId: number, name: string) => {
               <div class="project-path">{{ p.path }}</div>
             </div>
           </div>
-          <el-button size="small" :icon="Refresh" :loading="scanningId === p.id" @click="handleScan(p.id)">
+          <el-button class="rescan-action-btn" size="small" :icon="Refresh" :loading="scanningId === p.id" @click="handleScan(p.id)" round>
             {{ scanningId === p.id ? '扫描中' : '重新扫描' }}
           </el-button>
         </div>
@@ -182,10 +182,13 @@ const handleDelete = async (projectId: number, name: string) => {
 .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
 .project-card { padding: 24px; display: flex; flex-direction: column; }
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
-.project-info { display: flex; align-items: center; gap: 16px; }
+.project-info { display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1; }
+.project-info > div { min-width: 0; flex: 1; }
 .project-avatar { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--color-accent), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: #fff; flex-shrink: 0; }
-.project-name { font-size: 18px; font-weight: 600; color: var(--color-text); letter-spacing: -0.01em; margin-bottom: 4px; }
-.project-path { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.project-name { font-size: 18px; font-weight: 600; color: var(--color-text); letter-spacing: -0.01em; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-path { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rescan-action-btn { flex-shrink: 0; margin-left: 12px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text-secondary); transition: all 0.2s; }
+.rescan-action-btn:hover { background: rgba(255,255,255,0.12); color: var(--color-text); border-color: var(--color-text-secondary); }
 .project-desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; flex: 1; margin-bottom: 24px; }
 .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--color-border); margin-top: auto; }
 .last-active { font-size: 13px; color: var(--color-text-secondary); font-weight: 500; }

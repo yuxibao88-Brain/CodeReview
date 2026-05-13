@@ -123,16 +123,19 @@ const severityConfig: Record<
 
     <!-- 搜索与操作栏 -->
     <div class="glass-toolbar">
-      <el-input
-        v-model="searchText"
-        placeholder="搜索文件、规则或问题内容..."
-        class="search-input"
-        clearable
-        :prefix-icon="Search"
-      />
-      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round
-        >重新扫描</el-button
-      >
+      <div class="search-container">
+        <el-input
+          v-model="searchText"
+          placeholder="搜索文件、规则或问题内容..."
+          class="search-input"
+          clearable
+          :prefix-icon="Search"
+        />
+      </div>
+      <div class="spacer"></div>
+      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round>
+        重新扫描
+      </el-button>
     </div>
 
     <!-- 问题列表 -->
@@ -244,32 +247,49 @@ const severityConfig: Record<
 .glass-toolbar {
   display: flex;
   align-items: center;
-  gap: 16px;
   margin-bottom: 24px;
-  padding: 8px 8px 8px 24px;
+  padding: 8px 8px 8px 16px;
   background: var(--color-bg-card);
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
 }
-.search-input {
+
+.search-container {
+  width: 220px;
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.search-container:focus-within {
+  width: 380px;
+}
+
+.spacer {
   flex: 1;
 }
+
 :deep(.search-input .el-input__wrapper) {
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
   box-shadow: none !important;
-  border: none;
-  background: transparent;
-  padding: 4px 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 4px 12px;
+  transition: all 0.2s ease;
 }
+
 :deep(.search-input .el-input__wrapper.is-focus) {
-  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(74, 140, 246, 0.15) !important;
 }
-:deep(.search-input input) {
-  font-size: 15px;
-  font-weight: 500;
+
+:deep(.search-input .el-input__inner) {
+  height: 32px;
+  font-size: 14px;
   color: var(--color-text);
 }
+
 :deep(.search-input input::placeholder) {
   color: var(--color-text-tertiary);
 }

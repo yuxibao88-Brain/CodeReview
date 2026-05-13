@@ -6,6 +6,8 @@ export const dashboardApi = {
   getTrend: () => request.get('/dashboard/trend'),
   getActivity: () => request.get('/dashboard/activity'),
   getModuleScores: () => request.get('/dashboard/module-scores'),
+  getIssueDistribution: () => request.get('/dashboard/issue-distribution'),
+  getContributors: () => request.get('/dashboard/contributors'),
 }
 
 export const scanApi = {

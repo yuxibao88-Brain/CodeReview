@@ -99,7 +99,7 @@ const collapsed = ref(false);
       <el-menu
         :default-active="activeMenu"
         :collapse="collapsed"
-        :collapse-transition="false"
+        :collapse-transition="true"
         router
         class="sidebar-menu"
       >
@@ -204,6 +204,7 @@ const collapsed = ref(false);
   border: none !important;
   background: transparent !important;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-top: 12px;
 }
 

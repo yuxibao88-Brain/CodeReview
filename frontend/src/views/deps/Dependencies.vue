@@ -62,9 +62,21 @@ const statusIcon = (s: string) => s === 'ok' ? '✅' : s === 'outdated' ? '⚠�
 .tab-bar { display: flex; gap: 4px; background: var(--color-bg); padding: 4px; border-radius: 8px; }
 .tab { padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--color-text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s; }
 .tab.active { background: var(--color-bg-card); color: var(--color-text); box-shadow: var(--shadow-sm); }
+
+:deep(.el-table) {
+  --el-table-bg-color: transparent;
+  --el-table-tr-bg-color: transparent;
+  --el-table-header-bg-color: transparent;
+  --el-table-border-color: var(--color-border);
+  --el-table-text-color: var(--color-text);
+  --el-table-header-text-color: var(--color-text-secondary);
+  --el-table-row-hover-bg-color: var(--color-bg-hover);
+  background-color: transparent;
+}
 :deep(.el-table th.el-table__cell) { background: transparent !important; border-bottom: 1px solid var(--color-border); font-weight: 500; font-size: 13px; }
 :deep(.el-table td.el-table__cell) { border-bottom: 1px solid var(--color-border); }
 :deep(.el-table__inner-wrapper::before) { display: none; }
+
 .circ-card { display: flex; align-items: center; gap: 12px; padding: 16px 24px; margin-bottom: 12px; }
 .circ-icon { font-size: 16px; }
 .circ-path { font-family: monospace; font-size: 14px; color: var(--color-text); }
