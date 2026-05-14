@@ -61,7 +61,7 @@ onMounted(fetchReports);
   <div class="reports-page" v-loading="loading">
     <!-- 时间筛选 -->
     <div class="page-header">
-      <h2 class="page-title">{{ $t('reports.title') }}</h2>
+      <h2 class="page-title">{{ $t("reports.title") }}</h2>
       <el-date-picker
         v-model="dateRange"
         type="daterange"
@@ -84,32 +84,80 @@ onMounted(fetchReports);
           <span class="ov-label">{{ $t(item.labelKey) }}</span>
           <div class="ov-icon-wrap" :style="{ color: item.color }">
             <!-- 总审查：文档图标 -->
-            <svg v-if="item.svgId === 'reviews'" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
+            <svg
+              v-if="item.svgId === 'reviews'"
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
             </svg>
             <!-- 已完成：带勾的圆 -->
-            <svg v-else-if="item.svgId === 'completed'" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
+            <svg
+              v-else-if="item.svgId === 'completed'"
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
             <!-- 问题数：警示三角 -->
-            <svg v-else-if="item.svgId === 'issues'" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            <svg
+              v-else-if="item.svgId === 'issues'"
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
             </svg>
             <!-- 平均分：奖杯 -->
-            <svg v-else-if="item.svgId === 'score'" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-              <path d="M4 22h16"/>
-              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            <svg
+              v-else-if="item.svgId === 'score'"
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path
+                d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"
+              />
+              <path
+                d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"
+              />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
             </svg>
           </div>
         </div>
@@ -120,7 +168,7 @@ onMounted(fetchReports);
     <div class="report-body">
       <!-- 审查人排名 -->
       <div class="card ranking-panel">
-        <h4 class="panel-title">{{ $t('reports.ranking.title') }}</h4>
+        <h4 class="panel-title">{{ $t("reports.ranking.title") }}</h4>
         <el-table :data="reviewerRanking" style="width: 100%">
           <el-table-column label="#" width="60" align="center">
             <template #default="{ $index }">
@@ -129,7 +177,10 @@ onMounted(fetchReports);
               }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('reports.ranking.reviewer')" min-width="120">
+          <el-table-column
+            :label="$t('reports.ranking.reviewer')"
+            min-width="120"
+          >
             <template #default="{ row }">
               <div style="display: flex; align-items: center; gap: 12px">
                 <el-avatar
@@ -160,7 +211,11 @@ onMounted(fetchReports);
             width="90"
             align="center"
           />
-          <el-table-column :label="$t('reports.ranking.avgScore')" width="90" align="center">
+          <el-table-column
+            :label="$t('reports.ranking.avgScore')"
+            width="90"
+            align="center"
+          >
             <template #default="{ row }">
               <span
                 :style="{
@@ -176,14 +231,17 @@ onMounted(fetchReports);
             </template>
           </el-table-column>
           <template #empty>
-            <el-empty :description="$t('reports.ranking.empty')" :image-size="80" />
+            <el-empty
+              :description="$t('reports.ranking.empty')"
+              :image-size="80"
+            />
           </template>
         </el-table>
       </div>
 
       <!-- 问题类型分布 -->
       <div class="card issue-panel">
-        <h4 class="panel-title">{{ $t('reports.issues.title') }}</h4>
+        <h4 class="panel-title">{{ $t("reports.issues.title") }}</h4>
         <div class="issue-list" v-if="issueTypes && issueTypes.length > 0">
           <div v-for="item in issueTypes" :key="item.type" class="issue-row">
             <div class="issue-row-header">
@@ -207,7 +265,11 @@ onMounted(fetchReports);
             />
           </div>
         </div>
-        <el-empty v-else :description="$t('reports.issues.empty')" :image-size="80" />
+        <el-empty
+          v-else
+          :description="$t('reports.issues.empty')"
+          :image-size="80"
+        />
       </div>
     </div>
   </div>

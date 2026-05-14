@@ -110,20 +110,14 @@ const handleDelete = async (projectId: number, name: string) => {
       <el-button type="primary" :icon="FolderAdd" @click="showDialog = true" size="large">添加第一个项目</el-button>
     </div>
 
-    <!-- 项目卡片 -->
     <div class="project-grid" v-loading="loading" v-else>
       <div v-for="p in filteredProjects" :key="p.id" class="card project-card">
         <div class="card-header">
-          <div class="project-info">
-            <div class="project-avatar">{{ p.name?.charAt(0).toUpperCase() }}</div>
-            <div>
-              <div class="project-name">{{ p.name }}</div>
-              <div class="project-path">{{ p.path }}</div>
-            </div>
+          <div class="project-avatar">{{ p.name?.charAt(0).toUpperCase() }}</div>
+          <div class="project-meta">
+            <div class="project-name">{{ p.name }}</div>
+            <div class="project-path">{{ p.path }}</div>
           </div>
-          <el-button class="rescan-action-btn" size="small" :icon="Refresh" :loading="scanningId === p.id" @click="handleScan(p.id)" round>
-            {{ scanningId === p.id ? '扫描中' : '重新扫描' }}
-          </el-button>
         </div>
 
         <!-- 扫描进度条 -->
@@ -139,8 +133,16 @@ const handleDelete = async (projectId: number, name: string) => {
 
         <div class="project-desc" v-if="p.desc">{{ p.desc }}</div>
         <div class="card-footer">
-          <div class="last-active">更新: {{ p.updated || '—' }}</div>
-          <el-button size="small" type="danger" link @click.stop="handleDelete(p.id, p.name)">删除</el-button>
+          <div class="last-active">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {{ p.updated || '—' }}
+          </div>
+          <div class="card-actions">
+            <el-button class="rescan-action-btn" size="small" :icon="Refresh" :loading="scanningId === p.id" @click="handleScan(p.id)" round>
+              {{ scanningId === p.id ? '扫描中' : '重新扫描' }}
+            </el-button>
+            <el-button size="small" type="danger" link @click.stop="handleDelete(p.id, p.name)">删除</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -181,19 +183,20 @@ const handleDelete = async (projectId: number, name: string) => {
 .empty-hero h3 { font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 8px; }
 .empty-hero p { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 24px; }
 
-.project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
-.project-card { padding: 24px; display: flex; flex-direction: column; }
-.card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
-.project-info { display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1; }
-.project-info > div { min-width: 0; flex: 1; }
-.project-avatar { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--color-accent), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: #fff; flex-shrink: 0; }
-.project-name { font-size: 18px; font-weight: 600; color: var(--color-text); letter-spacing: -0.01em; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.project-path { font-size: 12px; color: var(--color-text-tertiary); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rescan-action-btn { flex-shrink: 0; margin-left: 12px; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text-secondary); transition: all 0.2s; }
+.project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px; }
+.project-card { padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.project-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.project-avatar { width: 38px; height: 38px; border-radius: 10px; background: rgba(59, 130, 246, 0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: var(--color-accent); flex-shrink: 0; letter-spacing: -0.02em; }
+.project-meta { min-width: 0; flex: 1; }
+.project-name { font-size: 15px; font-weight: 600; color: var(--color-text); letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-path { font-size: 11px; color: var(--color-text-tertiary); font-family: 'SF Mono', 'Fira Code', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+.project-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; flex: 1; margin-bottom: 16px; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--color-border); margin-top: auto; }
+.last-active { font-size: 12px; color: var(--color-text-tertiary); font-weight: 500; display: inline-flex; align-items: center; gap: 5px; }
+.card-actions { display: flex; align-items: center; gap: 8px; }
+.rescan-action-btn { flex-shrink: 0; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text-secondary); transition: all 0.2s; font-size: 12px; }
 .rescan-action-btn:hover { background: rgba(255,255,255,0.12); color: var(--color-text); border-color: var(--color-text-secondary); }
-.project-desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; flex: 1; margin-bottom: 24px; }
-.card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--color-border); margin-top: auto; }
-.last-active { font-size: 13px; color: var(--color-text-secondary); font-weight: 500; }
 .path-hint { font-size: 12px; color: var(--color-text-tertiary); margin-top: 4px; }
 
 /* 扫描进度 */

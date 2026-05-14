@@ -85,57 +85,55 @@ const severityConfig: Record<
 
 <template>
   <div class="scan-page" v-loading="loading">
-    <!-- 汇总卡片 -->
-    <div class="summary-bar">
-      <div
-        class="summary-item"
-        :class="{ active: activeTab === 'all' }"
-        @click="activeTab = 'all'"
-      >
-        <span class="summary-count">{{ summary.total }}</span>
-        <span class="summary-label">全部</span>
+    <!-- 统一指令栏 -->
+    <div class="command-bar">
+      <div class="command-stats">
+        <div class="summary-item" :class="{ active: activeTab === 'all' }" @click="activeTab = 'all'">
+          <div class="summary-icon-wrap" style="--ic: #3b82f6">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="summary-data">
+            <span class="summary-label">全部问题</span>
+            <span class="summary-count">{{ summary.total }}</span>
+          </div>
+        </div>
+        <div class="bar-divider"></div>
+        <div class="summary-item error" :class="{ active: activeTab === 'error' }" @click="activeTab = 'error'">
+          <div class="summary-icon-wrap" style="--ic: #3b82f6">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="summary-data">
+            <span class="summary-label">错误</span>
+            <span class="summary-count">{{ summary.errors }}</span>
+          </div>
+        </div>
+        <div class="bar-divider"></div>
+        <div class="summary-item warning" :class="{ active: activeTab === 'warning' }" @click="activeTab = 'warning'">
+          <div class="summary-icon-wrap" style="--ic: #3b82f6">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="summary-data">
+            <span class="summary-label">警告</span>
+            <span class="summary-count">{{ summary.warnings }}</span>
+          </div>
+        </div>
+        <div class="bar-divider"></div>
+        <div class="summary-item suggestion" :class="{ active: activeTab === 'suggestion' }" @click="activeTab = 'suggestion'">
+          <div class="summary-icon-wrap" style="--ic: #3b82f6">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="summary-data">
+            <span class="summary-label">建议</span>
+            <span class="summary-count">{{ summary.suggestions }}</span>
+          </div>
+        </div>
       </div>
-      <div
-        class="summary-item error"
-        :class="{ active: activeTab === 'error' }"
-        @click="activeTab = 'error'"
-      >
-        <span class="summary-count">{{ summary.errors }}</span>
-        <span class="summary-label">错误</span>
+      <div class="command-actions">
+        <div class="search-container">
+          <el-input v-model="searchText" placeholder="搜索文件或规则..." class="search-input" clearable :prefix-icon="Search" />
+        </div>
+        <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan">重新扫描</el-button>
       </div>
-      <div
-        class="summary-item warning"
-        :class="{ active: activeTab === 'warning' }"
-        @click="activeTab = 'warning'"
-      >
-        <span class="summary-count">{{ summary.warnings }}</span>
-        <span class="summary-label">警告</span>
-      </div>
-      <div
-        class="summary-item suggestion"
-        :class="{ active: activeTab === 'suggestion' }"
-        @click="activeTab = 'suggestion'"
-      >
-        <span class="summary-count">{{ summary.suggestions }}</span>
-        <span class="summary-label">建议</span>
-      </div>
-    </div>
-
-    <!-- 搜索与操作栏 -->
-    <div class="glass-toolbar">
-      <div class="search-container">
-        <el-input
-          v-model="searchText"
-          placeholder="搜索文件、规则或问题内容..."
-          class="search-input"
-          clearable
-          :prefix-icon="Search"
-        />
-      </div>
-      <div class="spacer"></div>
-      <el-button class="rescan-btn" :icon="Refresh" @click="handleRescan" round>
-        重新扫描
-      </el-button>
     </div>
 
     <!-- 问题列表 -->
@@ -154,19 +152,16 @@ const severityConfig: Record<
                   background: severityConfig[issue.severity]?.bg,
                 }"
               >
-                <span
-                  class="severity-dot"
-                  :style="{ background: severityConfig[issue.severity]?.color }"
-                ></span>
                 {{ severityConfig[issue.severity]?.label }}
               </span>
-              <span class="issue-rule">{{ issue.rule }}</span>
+              <span class="rule-id">{{ issue.rule }}</span>
             </div>
-            <div class="issue-message">{{ issue.message }}</div>
-          </div>
-          <div class="issue-side">
-            <span class="issue-file">{{ issue.file }}</span>
-            <span class="issue-line">Line {{ issue.line }}</span>
+            <div class="issue-msg">{{ issue.message }}</div>
+            <div class="issue-file">
+              <span class="file-icon">📄</span>
+              {{ issue.file }}
+              <span class="line-num">行 {{ issue.line }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -186,98 +181,110 @@ const severityConfig: Record<
 </template>
 
 <style scoped>
-.summary-bar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.summary-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px 20px;
-  background: var(--color-bg-card);
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-.summary-item:hover {
-  background: var(--color-bg-hover);
-  transform: translateY(-2px);
-  border-color: var(--color-border-hover);
-  box-shadow: var(--shadow-md);
-}
-.summary-item.active {
-  background: var(--color-bg-card);
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 1px var(--color-accent);
-}
-.summary-item.error.active {
-  border-color: var(--color-danger);
-  box-shadow: 0 0 0 1px var(--color-danger);
-}
-.summary-item.warning.active {
-  border-color: var(--color-warning);
-  box-shadow: 0 0 0 1px var(--color-warning);
-}
-.summary-item.suggestion.active {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 1px var(--color-accent);
-}
-
-.summary-count {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--color-text);
-  font-family: "SF Mono", "Fira Code", monospace;
-  line-height: 1;
-  text-shadow: none;
-}
-.summary-label {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  margin-top: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.glass-toolbar {
+/* 统一指令栏 */
+.command-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 24px;
-  padding: 8px 8px 8px 16px;
+  padding: 12px 20px;
   background: var(--color-bg-card);
   border-radius: 12px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
+  min-height: 64px;
 }
-
-.search-container {
-  width: 220px;
-  position: relative;
-  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.search-container:focus-within {
-  width: 380px;
-}
-
-.spacer {
+.command-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex: 1;
+  min-width: 0;
+}
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.summary-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.summary-item.active {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.summary-item.active .summary-icon-wrap {
+  transform: scale(1.05);
+}
+.bar-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+.summary-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ic) 15%, transparent);
+  color: var(--ic);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.summary-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+.summary-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  line-height: 1;
+}
+.summary-count {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: "SF Pro Text", "Inter", sans-serif;
+  line-height: 1;
+}
+.command-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.search-container {
+  width: 200px;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.search-container:focus-within {
+  width: 260px;
 }
 
 :deep(.search-input .el-input__wrapper) {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: none !important;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 4px 12px;
-  transition: all 0.2s ease;
+  border-radius: 6px;
+  height: 36px;
 }
-
+:deep(.search-input .el-input__wrapper:hover) {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
 :deep(.search-input .el-input__wrapper.is-focus) {
   background: rgba(255, 255, 255, 0.05);
   border-color: var(--color-accent) !important;
@@ -285,29 +292,31 @@ const severityConfig: Record<
 }
 
 :deep(.search-input .el-input__inner) {
-  height: 32px;
-  font-size: 14px;
-  color: var(--color-text);
+  height: 36px;
+  font-size: 13px;
+  color: #fff !important;
 }
 
 :deep(.search-input input::placeholder) {
   color: var(--color-text-tertiary);
 }
 .rescan-btn {
-  border: none;
-  background: var(--color-accent);
-  color: white;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
+  height: 36px;
+  padding: 0 20px;
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 500;
+  border-radius: 6px !important;
+  font-size: 13px;
+  letter-spacing: 0.02em;
   transition: all 0.2s ease;
 }
 .rescan-btn:hover {
-  background: #3b82f6;
-  color: white;
+  background: #2563eb !important;
+  color: white !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(74, 140, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .issues-list {
